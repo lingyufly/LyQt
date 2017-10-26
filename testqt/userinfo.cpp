@@ -15,7 +15,9 @@ UserInfo::UserInfo(QWidget *parent) :
     headers->push_back("Info");
     ui->infotable->setColumnCount(3);
 
+    //设置选中时为一行
     ui->infotable->setSelectionBehavior(QTableWidget::SelectRows);
+    //设置只允许单行选中
     ui->infotable->setSelectionMode(QTableWidget::SingleSelection);
     ui->infotable->setHorizontalHeaderLabels(*headers);
     ui->infotable->horizontalHeader()->setStretchLastSection(true);
@@ -87,8 +89,13 @@ void UserInfo::savedata()
 
 int UserInfo::deleteitem()
 {
-    QList<QTableWidgetSelectionRange> sitems=ui->infotable->selectedRanges();
+    if (itemSize<=0 || ui->infotable->currentRow()<0)
+        return 0;
+
+    itemSize-=1;
     ui->infotable->removeRow(ui->infotable->currentRow());
+    ui->infotable->setFocus();
+    ui->infotable->selectRow(itemSize-1);
     return 1;
 }
 
@@ -97,8 +104,9 @@ int UserInfo::additem()
     itemSize+=1;
     ui->infotable->setRowCount(itemSize);
     // 不在新添加的行的第一个元素中写入内容，无法使其变为正在编辑状态
-    ui->infotable->setItem(itemSize-1,0,new QTableWidgetItem(" "));
+    //ui->infotable->setItem(itemSize-1,0,new QTableWidgetItem(" "));
     ui->infotable->setFocus();
+    ui->infotable->selectRow(itemSize-1);
     ui->infotable->editItem(ui->infotable->item(itemSize-1, 0));
     return 1;
 }
