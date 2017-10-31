@@ -14,13 +14,18 @@ UserInfo::UserInfo(QWidget *parent) :
     headers->push_back("Pass");
     headers->push_back("Info");
     ui->infotable->setColumnCount(3);
+    ui->infotable->setHorizontalHeaderLabels(*headers);
+    //设置表头背景色
+    ui->infotable->horizontalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
+    ui->infotable->verticalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
+
+    // 设置列填充满宽度
+    ui->infotable->horizontalHeader()->setStretchLastSection(true);
 
     //设置选中时为一行
     ui->infotable->setSelectionBehavior(QTableWidget::SelectRows);
     //设置只允许单行选中
     ui->infotable->setSelectionMode(QTableWidget::SingleSelection);
-    ui->infotable->setHorizontalHeaderLabels(*headers);
-    ui->infotable->horizontalHeader()->setStretchLastSection(true);
 
     delete headers;
 

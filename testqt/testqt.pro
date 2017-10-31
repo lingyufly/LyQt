@@ -40,7 +40,7 @@ FORMS += \
         mainwindow.ui \
     login.ui \
     userinfo.ui \
-    mouse.ui \
+    mouse.ui
 
 DISTFILES += \
     ini/settings.ini \
