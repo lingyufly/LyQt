@@ -31,3 +31,6 @@
 *.out
 *.app
 *-Debug
+Debug
+Release
+x64
