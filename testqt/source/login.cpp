@@ -4,19 +4,19 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QStringList>
+#include <QLabel>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QString>
+#include <QHBoxLayout>
 
 Login::Login(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::login)
+    QDialog(parent)
 {
-    ui->setupUi(this);
-    ui->passledit->setEchoMode(QLineEdit::Password);
-    connect(ui->loginbtn, SIGNAL(clicked()), this, SLOT(checkuserandpass()));
-    connect(ui->exitbtn, SIGNAL(clicked()), this, SLOT(reject()));
-    users=new QMap<QString, QString>();
-
-    ui->userledit->setText("ly");
-    ui->passledit->setText("ly123.");
+    setupUi();
+    m_users=new QMap<QString, QString>();
+    m_userLineEdit->setText("ly");
+    m_passLineEdit->setText("ly123.");
     if (loadusers()==0)
     {
         QMessageBox::warning(this, "warn", "没有用户信息");
@@ -25,21 +25,49 @@ Login::Login(QWidget *parent) :
 
 Login::~Login()
 {
-    delete ui;
-    delete users;
+    delete m_users;
+}
+
+void Login::setupUi()
+{
+    QVBoxLayout *mainlayout = new QVBoxLayout(this);
+    QHBoxLayout *hbox = new QHBoxLayout();
+    QLabel *label = new QLabel("User:");
+    m_userLineEdit = new QLineEdit(this);
+    hbox->addWidget(label);
+    hbox->addWidget(m_userLineEdit);
+    mainlayout->addLayout(hbox);
+
+    hbox = new QHBoxLayout();
+    label = new QLabel("Pass:");
+    m_passLineEdit = new QLineEdit(this);
+    hbox->addWidget(label);
+    hbox->addWidget(m_passLineEdit);
+    mainlayout->addLayout(hbox);
+
+    hbox = new QHBoxLayout();
+    m_loginBtn = new QPushButton("Login", this);
+    m_exitBtn = new QPushButton("Exit", this);
+    hbox->addWidget(m_loginBtn);
+    hbox->addWidget(m_exitBtn);
+    mainlayout->addLayout(hbox);
+
+    m_passLineEdit->setEchoMode(QLineEdit::Password);
+    connect(m_loginBtn, SIGNAL(clicked()), this, SLOT(checkuserandpass()));
+    connect(m_exitBtn, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
 void Login::checkuserandpass()
 {
-    QString user=ui->userledit->text();
-    QString pass=ui->passledit->text();
-    if (users->size()==0 && user=="admin" && pass=="admin")
+    QString user=m_userLineEdit->text();
+    QString pass=m_passLineEdit->text();
+    if (m_users->size()==0 && user=="admin" && pass=="admin")
     {
         emit senduserandpass(user, pass);
         this->accept();
         return;
     }
-    if (users->find(user)!=users->end() && users->find(user).value()==pass)
+    if (m_users->find(user)!= m_users->end() && m_users->find(user).value()==pass)
     {
         emit senduserandpass(user, pass);
         this->accept();
@@ -60,7 +88,7 @@ int Login::loadusers()
     {
         settings->setArrayIndex(i);
         qDebug()<<settings->value("user").toString()<<":"<<settings->value("pass").toString();
-        users->insert(settings->value("user").toString(),settings->value("pass").toString());
+        m_users->insert(settings->value("user").toString(),settings->value("pass").toString());
     }
     settings->endArray();
     delete settings;
