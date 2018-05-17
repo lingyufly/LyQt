@@ -2,13 +2,10 @@
 #define LOGIN_H
 
 #include <QDialog>
-#include <QVector>
-#include <QString>
-#include <QMap>
-using namespace std;
-namespace Ui {
-class login;
-}
+class QString;
+class QLabel;
+class QLineEdit;
+class QPushButton;
 
 class Login : public QDialog
 {
@@ -25,9 +22,16 @@ signals:
     void senduserandpass(QString user, QString pass);
 
 private:
-    Ui::login *ui;
-    QMap<QString, QString> *users;
     int loadusers();
+    void setupUi();
+    QMap<QString, QString> *m_users;
+    
+
+    QLineEdit *m_userLineEdit;
+    QLineEdit *m_passLineEdit;
+    QPushButton *m_loginBtn;
+    QPushButton *m_exitBtn;
+
 };
 
 #endif // LOGIN_H
