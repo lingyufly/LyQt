@@ -28,10 +28,7 @@ HEADERS += \
 		include/mouse.h
 
 FORMS += \
-        ui/mainwindow.ui \
-		ui/login.ui \
-		ui/userinfo.ui \
-		ui/mouse.ui
+		ui/userinfo.ui
 
 DISTFILES += \
     ini/settings.ini 
