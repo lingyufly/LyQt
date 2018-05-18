@@ -1,38 +1,53 @@
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "login.h"
 #include "userinfo.h"
+#include <QHBoxLayout>
+#include <QTabWidget>
+#include <QWidget>
+#include <QApplication>
 
 MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent)
 {
-    ui->setupUi(this);
-    login=new Login(this);
-
-    userinfoTab=new UserInfo();
-    ui->tabWidget->addTab(userinfoTab,QString("UserInfo"));
-
-    mouseTab=new Mouse();
-    ui->tabWidget->addTab(mouseTab, QString("Mouse"));
+    setupUi();
 }
 
-void MainWindow::show()
-{
-    QMainWindow::show();
-    if (login->exec()==QDialog::Accepted)
-    {
-        return;
-    }
-    else
-    {
-        this->close();
-    }
 
-    return;
-}
 
 MainWindow::~MainWindow()
 {
-    delete ui;
+}
+
+
+bool MainWindow::login()
+{
+    m_login = new Login(this);
+    if (m_login->exec() == QDialog::Accepted)
+    {
+        delete m_login;
+        return true;
+    }
+    else
+    {
+        close();
+        qApp->quit();
+        return false;
+    }
+}
+
+void MainWindow::setupUi()
+{
+    resize(800, 600);
+    m_centerWidget = new QWidget(this);
+    setCentralWidget(m_centerWidget);
+
+    QVBoxLayout *mainLayout = new QVBoxLayout(m_centerWidget);
+    m_tabWidget = new QTabWidget(m_centerWidget);
+    mainLayout->addWidget(m_tabWidget);
+
+    m_userinfoTab = new UserInfo();
+    m_tabWidget->addTab(m_userinfoTab, QString("UserInfo"));
+
+    m_mouseTab = new Mouse();
+    m_tabWidget->addTab(m_mouseTab, QString("Mouse"));
 }

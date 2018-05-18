@@ -8,9 +8,6 @@
 #include "userinfo.h"
 #include "mouse.h"
 
-namespace Ui {
-class MainWindow;
-}
 
 class MainWindow : public QMainWindow
 {
@@ -19,13 +16,15 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void show();
+    void setupUi();
+    bool login();
 
 private:
-    Login *login;
-    Ui::MainWindow *ui;
-    UserInfo *userinfoTab;
-    Mouse *mouseTab;
+    QWidget *m_centerWidget;
+    QTabWidget *m_tabWidget;
+    Login *m_login;
+    UserInfo *m_userinfoTab;
+    Mouse *m_mouseTab;
 };
 
 #endif // MAINWINDOW_H

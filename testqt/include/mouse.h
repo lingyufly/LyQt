@@ -3,10 +3,9 @@
 
 #include <QWidget>
 #include <QTime>
-
-namespace Ui {
-class Mouse;
-}
+class QLabel;
+class QTextBrowser;
+class QCheckBox;
 
 class Mouse : public QWidget
 {
@@ -15,6 +14,7 @@ class Mouse : public QWidget
 public:
     explicit Mouse(QWidget *parent = 0);
     ~Mouse();
+    void setupUi();
 protected:
     void mousePressEvent(QMouseEvent *e);       //--鼠标按下事件
     void mouseMoveEvent(QMouseEvent *e);    //--鼠标移动事件
@@ -25,7 +25,9 @@ protected slots:
     void changeMouseTrckState(bool stat);
 private:
     QTime ct, pt;
-    Ui::Mouse *ui;
+    QLabel *m_mouseposLabel;
+    QCheckBox *m_mouseTrackCbox;
+    QTextBrowser *m_textBrowser;
 };
 
 #endif // MOUSE_H
