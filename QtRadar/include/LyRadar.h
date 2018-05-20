@@ -4,6 +4,10 @@
 
 #include <QtWidgets/QWidget>
 
+class QTimerEvent;
+class QPoint;
+class QColor;
+
 class LyRadar : public QWidget
 {
     Q_OBJECT
@@ -13,9 +17,22 @@ public:
     ~LyRadar();
 
     void paintEvent(QPaintEvent * event);
+    void timerEvent(QTimerEvent *evet);
 
 private:
+    int m_width;
+    int m_height;
+    int m_radius;
+    double m_rotate;
+    double m_distance;
+    bool m_dir;
+    QPoint *m_point;
+    QColor m_fontColor;
+    QColor m_groudColor;
 
+    void drawCircle(QPainter &painter);
+
+    void drawArc(QPainter &painter);
 };
 
 
