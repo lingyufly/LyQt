@@ -15,6 +15,16 @@ class LyRadar : public QWidget
 public:
     LyRadar(QWidget *parent = Q_NULLPTR, Qt::WindowFlags fl=Qt::WindowFlags());
     ~LyRadar();
+    enum Mode{CircleMode, ArcMode};
+
+    void setMode(Mode mode)
+    {
+        m_mode = mode;
+    }
+    Mode getMode()
+    {
+        return m_mode;
+    }
 
     void paintEvent(QPaintEvent * event);
     void timerEvent(QTimerEvent *evet);
@@ -29,6 +39,7 @@ private:
     QPoint *m_point;
     QColor m_fontColor;
     QColor m_groudColor;
+    Mode m_mode;
 
     QPixmap m_pix;
     void preDraw();
