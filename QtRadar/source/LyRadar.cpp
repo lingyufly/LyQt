@@ -12,15 +12,19 @@
 #include <QTimer>
 #include <QTimerEvent>
 #include <QPaintEvent>
+#include <QPixmap>
 
 LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
 {
+    resize(800, 400);
     m_point = new QPoint();
     m_groudColor = QColor(15, 45, 188);
     m_fontColor = Qt::white;
     m_rotate = 0;
     m_dir = true;
+    m_pix = QPixmap(size());
+    m_pix.fill(this, 0, 0);
     startTimer(100);
 }
 
@@ -28,20 +32,6 @@ LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
 LyRadar::~LyRadar()
 {
 
-}
-
-void LyRadar::paintEvent(QPaintEvent *event)
-{
-    qDebug() << "paintEvent";
-    m_width = size().width();
-    m_height = size().height();
-    m_point->setX(m_width / 2);
-    m_point->setY(m_height / 2);
-    m_radius = m_width < m_height ? m_width / 2 : m_height / 2;
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    //drawCircle(painter);
-    drawArc(painter);
 }
 
 
@@ -61,14 +51,40 @@ void LyRadar::timerEvent(QTimerEvent *event)
         
     m_rotate += m_dir ? 1 : -1;
 
+    preDraw();
     update();
 }
 
+
+void LyRadar::paintEvent(QPaintEvent *event)
+{
+    qDebug() << "paintEvent";
+    QPainter p(this);
+    p.drawPixmap(0, 0, m_pix);
+
+}
+
+
+void LyRadar::preDraw()
+{
+    m_pix = QPixmap(size());
+    QPainter painter(&m_pix);
+    m_width = size().width();
+    m_height = size().height();
+    m_point->setX(m_width / 2);
+    m_point->setY(m_height / 2);
+    m_radius = m_width < m_height ? m_width / 2 : m_height / 2;
+    painter.setRenderHint(QPainter::Antialiasing);
+    drawArc(painter);
+}
+
+
 void LyRadar::drawCircle(QPainter &painter)
 {
-    //painter.setBrush(QBrush(Qt::blue));
-    //painter.drawEllipse(*m_point, m_radius, m_radius);
+    painter.setBrush(QBrush(m_groudColor));
+    painter.drawEllipse(*m_point, m_radius, m_radius);
 
+    painter.setBrush(QBrush());
     painter.setPen(QPen(m_fontColor));
     painter.drawEllipse(*m_point, m_radius, m_radius);
     painter.drawEllipse(*m_point, m_radius * 2 / 3, m_radius * 2 / 3);
@@ -88,13 +104,11 @@ void LyRadar::drawArc(QPainter & painter)
     QRect rect(sx, sy, w, w);
     painter.setBrush(QBrush(m_groudColor));
     painter.setPen(QPen(m_fontColor));
-    //painter.drawRect(rect);
     painter.drawPie(rect, 0*16, 180*16);
 
     painter.setBrush(QBrush());
     QRect rect1(sx + w / 6, sy + w / 6, w * 2 / 3, w * 2 / 3);
     painter.drawPie(rect1, 0 * 16, 180 * 16);
-
     QRect rect2(sx + w / 3, sy + w / 3, w * 1 / 3, w * 1 / 3);
     painter.drawPie(rect2, 0 * 16, 180 * 16);
 
@@ -114,7 +128,6 @@ void LyRadar::drawArc(QPainter & painter)
     py = m_point->y() - m_radius * sin(180*3.14 / 180);
     painter.drawLine(*m_point, QPointF(px, py));
 
-
     px = m_point->x() + m_radius * cos(m_rotate*3.14 / 180);
     py = m_point->y() - m_radius * sin(m_rotate*3.14 / 180);
     painter.drawLine(*m_point, QPointF(px, py));
@@ -131,3 +144,5 @@ void LyRadar::drawArc(QPainter & painter)
     else
         painter.drawPie(rect, m_rotate* 16, 30 * 16);
 }
+
+

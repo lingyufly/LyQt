@@ -6,9 +6,8 @@
 #include <QString>
 #include <QSettings>
 
-namespace Ui {
-class UserInfo;
-}
+class QTableWidget;
+class QPushButton;
 
 class UserInfo : public QWidget
 {
@@ -24,9 +23,15 @@ protected slots:
     int additem();
 
 private:
-    QMap<QString, QString> *users;
-    int itemSize;
-    Ui::UserInfo *ui;
+    QMap<QString, QString> *m_users;
+    int m_itemSize;
+
+private:
+    void setupUi();
+    QTableWidget *m_infoTable;
+    QPushButton *m_addBtn;
+    QPushButton *m_delBtn;
+    QPushButton *m_saveBtn;
 };
 
 #endif // USERINFO_H

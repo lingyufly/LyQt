@@ -30,9 +30,11 @@ private:
     QColor m_fontColor;
     QColor m_groudColor;
 
+    QPixmap m_pix;
+    void preDraw();
     void drawCircle(QPainter &painter);
-
     void drawArc(QPainter &painter);
+    
 };
 
 

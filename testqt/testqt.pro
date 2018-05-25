@@ -19,16 +19,16 @@ SOURCES += \
         source/mainwindow.cpp \
 		source/login.cpp \
 		source/userinfo.cpp \
-		source/mouse.cpp
+		source/mouse.cpp \
+		source/testQTreeWidget.cpp
 
 HEADERS += \
         include/mainwindow.h \
 		include/login.h \
 		include/userinfo.h \
-		include/mouse.h
-
-FORMS += \
-		ui/userinfo.ui
+		include/mouse.h \
+		include/testQTreeWidget.h
+		
 
 DISTFILES += \
     ini/settings.ini 

@@ -56,7 +56,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtWidgets;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtGui;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtANGLE;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtCore;release;.;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtWidgets;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtGui;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtANGLE;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtCore;release;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>release\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -97,7 +97,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">
     <ClCompile>
-      <AdditionalIncludeDirectories>.;include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtWidgets;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtGui;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtANGLE;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtCore;debug;.;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtWidgets;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtGui;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtANGLE;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\include\QtCore;debug;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\mkspecs\win32-msvc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>-Zc:rvalueCast -Zc:inline -Zc:strictStrings -Zc:throwingNew -Zc:referenceBinding -w34100 -w34189 -w44996 -w44456 -w44457 -w44458 %(AdditionalOptions)</AdditionalOptions>
       <AssemblerListingLocation>debug\</AssemblerListingLocation>
       <BrowseInformation>false</BrowseInformation>
@@ -139,6 +139,7 @@
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\mainwindow.cpp" />
     <ClCompile Include="source\mouse.cpp" />
+    <ClCompile Include="source\testQTreeWidget.cpp" />
     <ClCompile Include="source\userinfo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +172,16 @@
       <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\moc.exe  -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include debug/moc_predefs.h -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/mkspecs/win32-msvc -IE:/code/qt/testqt/testqt -IE:/code/qt/testqt/testqt/include -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtWidgets -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtGui -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtANGLE -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtCore include\mouse.h -o debug\moc_mouse.cpp</Command>
       <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC include/mouse.h</Message>
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_mouse.cpp;%(Outputs)</Outputs>
+    </CustomBuild>
+    <CustomBuild Include="include\testQTreeWidget.h">
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">include\testQTreeWidget.h;release\moc_predefs.h;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\moc.exe  -DUNICODE -DWIN32 -DWIN64 -DQT_NO_DEBUG -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include release/moc_predefs.h -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/mkspecs/win32-msvc -IE:/code/qt/testqt/testqt -IE:/code/qt/testqt/testqt/include -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtWidgets -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtGui -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtANGLE -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtCore include\testQTreeWidget.h -o release\moc_testQTreeWidget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">MOC include/testQTreeWidget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">release\moc_testQTreeWidget.cpp;%(Outputs)</Outputs>
+      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">include\testQTreeWidget.h;debug\moc_predefs.h;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
+      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\moc.exe  -DUNICODE -DWIN32 -DWIN64 -DQT_WIDGETS_LIB -DQT_GUI_LIB -DQT_CORE_LIB --compiler-flavor=msvc --include debug/moc_predefs.h -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/mkspecs/win32-msvc -IE:/code/qt/testqt/testqt -IE:/code/qt/testqt/testqt/include -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtWidgets -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtGui -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtANGLE -ID:/Applications/Qt/Qt5.9.1/5.9.1/msvc2017_64/include/QtCore include\testQTreeWidget.h -o debug\moc_testQTreeWidget.cpp</Command>
+      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">MOC include/testQTreeWidget.h</Message>
+      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">debug\moc_testQTreeWidget.cpp;%(Outputs)</Outputs>
     </CustomBuild>
     <CustomBuild Include="include\userinfo.h">
       <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">include\userinfo.h;release\moc_predefs.h;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\moc.exe;%(AdditionalInputs)</AdditionalInputs>
@@ -218,26 +229,18 @@
       <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">release\moc_predefs.h;%(Outputs)</Outputs>
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</ExcludedFromBuild>
     </CustomBuild>
+    <ClCompile Include="debug\moc_testQTreeWidget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="release\moc_testQTreeWidget.cpp">
+      <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="debug\moc_userinfo.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="release\moc_userinfo.cpp">
       <ExcludedFromBuild Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">true</ExcludedFromBuild>
     </ClCompile>
-    <ClInclude Include="ui_userinfo.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomBuild Include="ui\userinfo.ui">
-      <FileType>Document</FileType>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">ui\userinfo.ui;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\uic.exe ui\userinfo.ui -o ui_userinfo.h</Command>
-      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">UIC ui/userinfo.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Release|x64&apos;">ui_userinfo.h;%(Outputs)</Outputs>
-      <AdditionalInputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">ui\userinfo.ui;D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\uic.exe;%(AdditionalInputs)</AdditionalInputs>
-      <Command Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">D:\Applications\Qt\Qt5.9.1\5.9.1\msvc2017_64\bin\uic.exe ui\userinfo.ui -o ui_userinfo.h</Command>
-      <Message Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">UIC ui/userinfo.ui</Message>
-      <Outputs Condition="&apos;$(Configuration)|$(Platform)&apos;==&apos;Debug|x64&apos;">ui_userinfo.h;%(Outputs)</Outputs>
-    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <None Include="ini\settings.ini" />

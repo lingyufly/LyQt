@@ -7,6 +7,7 @@
 #include "login.h"
 #include "userinfo.h"
 #include "mouse.h"
+#include "testQTreeWidget.h"
 
 
 class MainWindow : public QMainWindow
@@ -25,6 +26,7 @@ private:
     Login *m_login;
     UserInfo *m_userinfoTab;
     Mouse *m_mouseTab;
+    TestQTreeWidgetWidget *m_qtreewidgettwgt;
 };
 
 #endif // MAINWINDOW_H

@@ -50,4 +50,7 @@ void MainWindow::setupUi()
 
     m_mouseTab = new Mouse();
     m_tabWidget->addTab(m_mouseTab, QString("Mouse"));
+
+    m_qtreewidgettwgt = new TestQTreeWidgetWidget();
+    m_tabWidget->addTab(m_qtreewidgettwgt, QString("QTreeWidget"));
 }
