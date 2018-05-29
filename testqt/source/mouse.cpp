@@ -11,11 +11,11 @@
 #include <QPalette>
 
 Mouse::Mouse(QWidget *parent) :
-    QWidget(parent)
+QWidget(parent)
 {
     setupUi();
 
-    pt=QTime::currentTime();
+    pt = QTime::currentTime();
 }
 
 Mouse::~Mouse()
@@ -25,7 +25,7 @@ Mouse::~Mouse()
 
 void Mouse::mousePressEvent(QMouseEvent *e)
 {
-    if (e->button()==Qt::LeftButton)
+    if (e->button() == Qt::LeftButton)
         m_textBrowser->append("Mouse left button press");
     else
         m_textBrowser->append("Mouse right button press");
@@ -36,7 +36,7 @@ void Mouse::setupUi()
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     QHBoxLayout *hbox = new QHBoxLayout(NULL);
-    QLabel *label = new QLabel("é¼ æ ‡ä½ç½®: ", this);
+    QLabel *label = new QLabel("Êó±êÎ»ÖÃ: ", this);
     m_mouseposLabel = new QLabel(this);
     m_mouseposLabel->setAlignment(Qt::AlignCenter);
     QSpacerItem *hspacer = new QSpacerItem(100, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -54,7 +54,7 @@ void Mouse::setupUi()
     m_textBrowser = new QTextBrowser(this);
     mainLayout->addWidget(m_textBrowser);
 
-    // é»˜è®¤é¼ æ ‡ç§»åŠ¨äº‹ä»¶æ˜¯åœ¨é¼ æ ‡æŒ‰ä¸‹æ—¶æ‰å¯ä»¥è¢«æ•è·ï¼Œé€šè¿‡è®¾ç½®setMouseTracking(true)å¯ä»¥åœ¨é¼ æ ‡ä¸æŒ‰ä¸‹æ—¶ä¹Ÿè¢«æ•è·
+    // Ä¬ÈÏÊó±êÒÆ¶¯ÊÂ¼şÊÇÔÚÊó±ê°´ÏÂÊ±²Å¿ÉÒÔ±»²¶»ñ£¬Í¨¹ıÉèÖÃsetMouseTracking(true)¿ÉÒÔÔÚÊó±ê²»°´ÏÂÊ±Ò²±»²¶»ñ
     setMouseTracking(false);
 
     connect(m_mouseTrackCbox, SIGNAL(toggled(bool)), this, SLOT(changeMouseTrckState(bool)));
@@ -62,27 +62,30 @@ void Mouse::setupUi()
 
 void Mouse::mouseMoveEvent(QMouseEvent *e)
 {
-    // é˜²æŠ–åŠ¨
-    ct=QTime::currentTime();
-    if (pt.msecsTo(ct)<=100)
+    // ·À¶¶¶¯
+    ct = QTime::currentTime();
+    if (pt.msecsTo(ct) <= 100)
         return;
-    pt=ct;
+    pt = ct;
 
-    m_mouseposLabel->setText("X:"+QString::number(e->globalX())+" Y:"+QString::number(e->globalY()));
+    m_mouseposLabel->setText("X:" + QString::number(e->globalX()) + " Y:" + QString::number(e->globalY()));
     m_textBrowser->append("Mouse move");
 }
 
 void Mouse::mouseReleaseEvent(QMouseEvent *e)
 {
-    if (e->button()==Qt::LeftButton)
+    if (e->button() == Qt::LeftButton)
         m_textBrowser->append("Mouse left button release");
     else
         m_textBrowser->append("Mouse right button release");
 }
 
-void Mouse::mouseDoubleClickEvent(QMouseEvent *)
+void Mouse::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    m_textBrowser->append("Mouse double click");
+    if (e->button() == Qt::LeftButton)
+        m_textBrowser->append("Mouse double click");
+    else
+        m_textBrowser->append("Mouse double click");
 }
 
 void Mouse::changeMouseTrckState(bool stat)

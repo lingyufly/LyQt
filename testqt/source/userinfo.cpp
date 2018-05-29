@@ -11,25 +11,25 @@
 #include <QSpacerItem>
 
 UserInfo::UserInfo(QWidget *parent) :
-    QWidget(parent)
+QWidget(parent)
 {
     setupUi();
-    
-    m_users=new QMap<QString, QString>();
 
-    if ((m_itemSize=loaddata())==0)
+    m_users = new QMap<QString, QString>();
+
+    if ((m_itemSize = loaddata()) == 0)
     {
         return;
     }
-    qDebug()<<m_itemSize;
+    qDebug() << m_itemSize;
     m_infoTable->setRowCount(m_itemSize);
-    int i=0;
-    for (QMap<QString,QString>::iterator p=m_users->begin(); p!=m_users->end(); p++,i++)
+    int i = 0;
+    for (QMap<QString, QString>::iterator p = m_users->begin(); p != m_users->end(); p++, i++)
     {
-        qDebug()<<p.key()<<p.value();
+        qDebug() << p.key() << p.value();
 
-        m_infoTable->setItem(i,0,new QTableWidgetItem(p.key()));
-        m_infoTable->setItem(i,1, new QTableWidgetItem(p.value()));
+        m_infoTable->setItem(i, 0, new QTableWidgetItem(p.key()));
+        m_infoTable->setItem(i, 1, new QTableWidgetItem(p.value()));
     }
 }
 
@@ -48,17 +48,17 @@ void UserInfo::setupUi()
     headers->push_back("Info");
     m_infoTable->setColumnCount(3);
     m_infoTable->setHorizontalHeaderLabels(*headers);
-    //è®¾ç½®è¡¨å¤´èƒŒæ™¯è‰²
+    //ÉèÖÃ±íÍ·±³¾°É«
     m_infoTable->horizontalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
     m_infoTable->verticalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
-    // è®¾ç½®åˆ—å¡«å……æ»¡å®½åº¦
+    // ÉèÖÃÁÐÌî³äÂú¿í¶È
     m_infoTable->horizontalHeader()->setStretchLastSection(true);
-    //è®¾ç½®é€‰ä¸­æ—¶ä¸ºä¸€è¡Œ
+    //ÉèÖÃÑ¡ÖÐÊ±ÎªÒ»ÐÐ
     m_infoTable->setSelectionBehavior(QTableWidget::SelectRows);
-    //è®¾ç½®åªå…è®¸å•è¡Œé€‰ä¸­
+    //ÉèÖÃÖ»ÔÊÐíµ¥ÐÐÑ¡ÖÐ
     m_infoTable->setSelectionMode(QTableWidget::SingleSelection);
     delete headers;
-    
+
     mainLayout->addWidget(m_infoTable);
 
     QSpacerItem *spacer = new QSpacerItem(120, 10, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -80,10 +80,10 @@ void UserInfo::setupUi()
 int UserInfo::loaddata()
 {
     m_users->empty();
-    QSettings *settings=new QSettings("ini/settings.ini", QSettings::IniFormat);
+    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
 
-    int len=settings->beginReadArray("login");
-    for (int i=0; i<len; i++)
+    int len = settings->beginReadArray("login");
+    for (int i = 0; i < len; i++)
     {
         settings->setArrayIndex(i);
         m_users->insert(settings->value("user").toString(), settings->value("pass").toString());
@@ -96,17 +96,17 @@ int UserInfo::loaddata()
 void UserInfo::savedata()
 {
     m_users->empty();
-    QSettings *settings=new QSettings("ini/settings.ini", QSettings::IniFormat);
+    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
     settings->beginWriteArray("login");
-    for (int i=0; i<m_infoTable->rowCount(); i++)
+    for (int i = 0; i < m_infoTable->rowCount(); i++)
     {
-        if(m_infoTable->item(i,0)==0 || m_infoTable->item(i,1)==0)
+        if (m_infoTable->item(i, 0) == 0 || m_infoTable->item(i, 1) == 0)
             continue;
-        qDebug()<<m_infoTable->item(i,0)->text()<<":"<<m_infoTable->item(i,1)->text();
-        m_users->insert(m_infoTable->item(i,0)->text(), m_infoTable->item(i,1)->text());
+        qDebug() << m_infoTable->item(i, 0)->text() << ":" << m_infoTable->item(i, 1)->text();
+        m_users->insert(m_infoTable->item(i, 0)->text(), m_infoTable->item(i, 1)->text());
         settings->setArrayIndex(i);
-        settings->setValue("user", m_infoTable->item(i,0)->text());
-        settings->setValue("pass", m_infoTable->item(i,1)->text());
+        settings->setValue("user", m_infoTable->item(i, 0)->text());
+        settings->setValue("pass", m_infoTable->item(i, 1)->text());
 
     }
     settings->endArray();
@@ -115,24 +115,24 @@ void UserInfo::savedata()
 
 int UserInfo::deleteitem()
 {
-    if (m_itemSize<=0 || m_infoTable->currentRow()<0)
+    if (m_itemSize <= 0 || m_infoTable->currentRow() < 0)
         return 0;
 
-    m_itemSize -=1;
+    m_itemSize -= 1;
     m_infoTable->removeRow(m_infoTable->currentRow());
     m_infoTable->setFocus();
-    m_infoTable->selectRow(m_itemSize -1);
+    m_infoTable->selectRow(m_itemSize - 1);
     return 1;
 }
 
 int UserInfo::additem()
 {
-    m_itemSize +=1;
+    m_itemSize += 1;
     m_infoTable->setRowCount(m_itemSize);
-    // ä¸åœ¨æ–°æ·»åŠ çš„è¡Œçš„ç¬¬ä¸€ä¸ªå…ƒç´ ä¸­å†™å…¥å†…å®¹ï¼Œæ— æ³•ä½¿å…¶å˜ä¸ºæ­£åœ¨ç¼–è¾‘çŠ¶æ€
+    // ²»ÔÚÐÂÌí¼ÓµÄÐÐµÄµÚÒ»¸öÔªËØÖÐÐ´ÈëÄÚÈÝ£¬ÎÞ·¨Ê¹Æä±äÎªÕýÔÚ±à¼­×´Ì¬
     //m_infoTable->setItem(itemSize-1,0,new QTableWidgetItem(" "));
     m_infoTable->setFocus();
-    m_infoTable->selectRow(m_itemSize -1);
-    m_infoTable->editItem(m_infoTable->item(m_itemSize -1, 0));
+    m_infoTable->selectRow(m_itemSize - 1);
+    m_infoTable->editItem(m_infoTable->item(m_itemSize - 1, 0));
     return 1;
 }

@@ -1,5 +1,5 @@
-#ifndef MOUSE_H
-#define MOUSE_H
+#ifndef _MOUSE_H_
+#define _MOUSE_H_
 
 #include <QWidget>
 #include <QTime>
@@ -16,12 +16,12 @@ public:
     ~Mouse();
     void setupUi();
 protected:
-    void mousePressEvent(QMouseEvent *e);       //--é¼ æ ‡æŒ‰ä¸‹äº‹ä»¶
-    void mouseMoveEvent(QMouseEvent *e);    //--é¼ æ ‡ç§»åŠ¨äº‹ä»¶
-    void mouseReleaseEvent(QMouseEvent *e); //--é¼ æ ‡é‡Šæ”¾ï¼ˆæ¾å¼€ï¼‰äº‹ä»¶
-    void mouseDoubleClickEvent(QMouseEvent *e); //--é¼ æ ‡åŒå‡»äº‹ä»¶
+    void mousePressEvent(QMouseEvent *e);       //--Êó±ê°´ÏÂÊÂ¼ş
+    void mouseMoveEvent(QMouseEvent *e);    //--Êó±êÒÆ¶¯ÊÂ¼ş
+    void mouseReleaseEvent(QMouseEvent *e); //--Êó±êÊÍ·Å£¨ËÉ¿ª£©ÊÂ¼ş
+    void mouseDoubleClickEvent(QMouseEvent *e); //--Êó±êË«»÷ÊÂ¼ş
 
-protected slots:
+    protected slots:
     void changeMouseTrckState(bool stat);
 private:
     QTime ct, pt;

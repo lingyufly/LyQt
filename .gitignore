@@ -38,7 +38,10 @@ release
 x64
 .vs    
 GeneratedFiles
+*.sdf
+*.opensdf
 *.sln
+*.suo
 *.vcxproj
 *.vcxproj.*
 .qmake.stash

@@ -1,2 +1,3 @@
-SUBDIRS+=QtRadar \
+TEMPLATE= subdirs
+SUBDIRS+=LyRadar \
         testqt
