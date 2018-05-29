@@ -24,5 +24,4 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
 
 TestQTreeWidgetWidget::~TestQTreeWidgetWidget()
 {
-    QString str =  "ÎÒµÄ";
 }

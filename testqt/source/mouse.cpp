@@ -36,7 +36,7 @@ void Mouse::setupUi()
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
     QHBoxLayout *hbox = new QHBoxLayout(NULL);
-    QLabel *label = new QLabel("Êó±êÎ»ÖÃ: ", this);
+    QLabel *label = new QLabel("é¼ æ ‡ä½ç½®: ", this);
     m_mouseposLabel = new QLabel(this);
     m_mouseposLabel->setAlignment(Qt::AlignCenter);
     QSpacerItem *hspacer = new QSpacerItem(100, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
@@ -54,7 +54,7 @@ void Mouse::setupUi()
     m_textBrowser = new QTextBrowser(this);
     mainLayout->addWidget(m_textBrowser);
 
-    // Ä¬ÈÏÊó±êÒÆ¶¯ÊÂ¼şÊÇÔÚÊó±ê°´ÏÂÊ±²Å¿ÉÒÔ±»²¶»ñ£¬Í¨¹ıÉèÖÃsetMouseTracking(true)¿ÉÒÔÔÚÊó±ê²»°´ÏÂÊ±Ò²±»²¶»ñ
+    // é»˜è®¤é¼ æ ‡ç§»åŠ¨äº‹ä»¶æ˜¯åœ¨é¼ æ ‡æŒ‰ä¸‹æ—¶æ‰å¯ä»¥è¢«æ•è·ï¼Œé€šè¿‡è®¾ç½®setMouseTracking(true)å¯ä»¥åœ¨é¼ æ ‡ä¸æŒ‰ä¸‹æ—¶ä¹Ÿè¢«æ•è·
     setMouseTracking(false);
 
     connect(m_mouseTrackCbox, SIGNAL(toggled(bool)), this, SLOT(changeMouseTrckState(bool)));
@@ -62,7 +62,7 @@ void Mouse::setupUi()
 
 void Mouse::mouseMoveEvent(QMouseEvent *e)
 {
-    // ·À¶¶¶¯
+    // é˜²æŠ–åŠ¨
     ct = QTime::currentTime();
     if (pt.msecsTo(ct) <= 100)
         return;

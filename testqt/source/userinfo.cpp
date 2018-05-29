@@ -9,6 +9,7 @@
 #include <QHBoxLayout>
 #include <QGridLayout>
 #include <QSpacerItem>
+#include <QLabel>
 
 UserInfo::UserInfo(QWidget *parent) :
 QWidget(parent)
@@ -48,14 +49,14 @@ void UserInfo::setupUi()
     headers->push_back("Info");
     m_infoTable->setColumnCount(3);
     m_infoTable->setHorizontalHeaderLabels(*headers);
-    //ÉèÖÃ±íÍ·±³¾°É«
+    //è®¾ç½®è¡¨å¤´èƒŒæ™¯è‰²
     m_infoTable->horizontalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
     m_infoTable->verticalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
-    // ÉèÖÃÁÐÌî³äÂú¿í¶È
+    // è®¾ç½®åˆ—å¡«å……æ»¡å®½åº¦
     m_infoTable->horizontalHeader()->setStretchLastSection(true);
-    //ÉèÖÃÑ¡ÖÐÊ±ÎªÒ»ÐÐ
+    //è®¾ç½®é€‰ä¸­æ—¶ä¸ºä¸€è¡Œ
     m_infoTable->setSelectionBehavior(QTableWidget::SelectRows);
-    //ÉèÖÃÖ»ÔÊÐíµ¥ÐÐÑ¡ÖÐ
+    //è®¾ç½®åªå…è®¸å•è¡Œé€‰ä¸­
     m_infoTable->setSelectionMode(QTableWidget::SingleSelection);
     delete headers;
 
@@ -129,7 +130,7 @@ int UserInfo::additem()
 {
     m_itemSize += 1;
     m_infoTable->setRowCount(m_itemSize);
-    // ²»ÔÚÐÂÌí¼ÓµÄÐÐµÄµÚÒ»¸öÔªËØÖÐÐ´ÈëÄÚÈÝ£¬ÎÞ·¨Ê¹Æä±äÎªÕýÔÚ±à¼­×´Ì¬
+    // ä¸åœ¨æ–°æ·»åŠ çš„è¡Œçš„ç¬¬ä¸€ä¸ªå…ƒç´ ä¸­å†™å…¥å†…å®¹ï¼Œæ— æ³•ä½¿å…¶å˜ä¸ºæ­£åœ¨ç¼–è¾‘çŠ¶æ€
     //m_infoTable->setItem(itemSize-1,0,new QTableWidgetItem(" "));
     m_infoTable->setFocus();
     m_infoTable->selectRow(m_itemSize - 1);
