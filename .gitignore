@@ -33,6 +33,12 @@
 *-Debug
 Debug
 Release
+debug
+release
 x64
 .vs    
 GeneratedFiles
+*.sln
+*.vcxproj
+*.vcxproj.*
+.qmake.stash
