@@ -1,0 +1,2 @@
+SUBDIRS+=QtRadar \
+        testqt
