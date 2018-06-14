@@ -20,14 +20,18 @@ SOURCES += \
 		source/login.cpp \
 		source/userinfo.cpp \
 		source/mouse.cpp \
-		source/testQTreeWidget.cpp
+		source/testQTreeWidget.cpp \
+        source/test.cpp \
+        source/testQStackedWidget.cpp
 
 HEADERS += \
         include/mainwindow.h \
 		include/login.h \
 		include/userinfo.h \
 		include/mouse.h \
-		include/testQTreeWidget.h
+		include/testQTreeWidget.h \
+        include/test.h \
+        include/testQStackedWidget.h
 		
 
 DISTFILES += \

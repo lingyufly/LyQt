@@ -14,9 +14,13 @@ public:
 
 protected:
 
+protected slots :
+    void slot_CurrentChanged();
+    void slot_SelectedChanged();
+
 
 private:
-
+    QTreeWidget *m_treeWidget;
 
 };
 
