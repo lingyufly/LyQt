@@ -11,8 +11,7 @@
 #include <QSpacerItem>
 #include <QLabel>
 
-UserInfo::UserInfo(QWidget *parent) :
-QWidget(parent)
+UserInfo::UserInfo(QWidget *parent) : QWidget(parent)
 {
     setupUi();
 
