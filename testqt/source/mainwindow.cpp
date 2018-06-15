@@ -8,6 +8,9 @@
 #include <QMenuBar>
 #include <QMenu>
 #include <QDebug>
+#include <QDialog>
+#include <QLabel>
+#include <QFont>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -42,28 +45,41 @@ void MainWindow::setupUi()
 {
     resize(800, 600);
 
-    QToolBar *toolbar = new QToolBar(this);
-    addToolBar(toolbar);
-    QAction *action1 = new QAction("Action1", this);
-    action1->setObjectName("action1");
-    toolbar->addAction(action1);
-    connect(action1, &QAction::toggled, this, &MainWindow::slot_toggled);
-    connect(action1, &QAction::triggered, this, &MainWindow::slot_triggered);
+    m_action1 = new QAction("Action1", this);
+    m_action1->setObjectName("m_action1");
+    connect(m_action1, &QAction::toggled, this, &MainWindow::slot_toggled);
+    connect(m_action1, &QAction::triggered, this, &MainWindow::slot_triggered);
 
-    QAction *action2 = new QAction("Action2", this);
-    action2->setObjectName("action2");
-    toolbar->addAction(action2);
-    action2->setCheckable(true);
-    connect(action2, &QAction::toggled, this, &MainWindow::slot_toggled);
-    connect(action2, &QAction::triggered, this, &MainWindow::slot_triggered);
+    m_action2 = new QAction("Action2", this);
+    m_action2->setObjectName("m_action2");
+    m_action2->setCheckable(true);
+    connect(m_action2, &QAction::toggled, this, &MainWindow::slot_toggled);
+    connect(m_action2, &QAction::triggered, this, &MainWindow::slot_triggered);
 
-    QMenuBar *m_menuBar = menuBar();
-    QMenu *m_fileMenu = new QMenu("File", this);
-    m_fileMenu->addAction(action1);
-    m_fileMenu->addAction(action2);
+    m_modalAction1 = new QAction("Modal1 Action", this);
+    m_modalAction1->setObjectName("m_modalAction1");
+    connect(m_modalAction1, &QAction::triggered, this, &MainWindow::slot_TestDialog);
+    m_modalAction2 = new QAction("Modal2 Action", this);
+    m_modalAction2->setObjectName("m_modalAction2");
+    connect(m_modalAction2, &QAction::triggered, this, &MainWindow::slot_TestDialog);
+    m_modalessAction = new QAction("Modaless Action", this);
+    m_modalessAction->setObjectName("m_modalessAction");
+    connect(m_modalessAction, &QAction::triggered, this, &MainWindow::slot_TestDialog);
+
+    m_menuBar = menuBar();
+    m_fileMenu = new QMenu("File", this);
+    m_fileMenu->addAction(m_action1);
+    m_fileMenu->addAction(m_action2);
     m_menuBar->addMenu(m_fileMenu);
 
-    toolbar->addAction(m_fileMenu->menuAction());
+    m_toolbar = new QToolBar(this);
+    addToolBar(m_toolbar);
+    m_toolbar->addAction(m_action1);
+    m_toolbar->addAction(m_action2);
+    m_toolbar->addAction(m_fileMenu->menuAction());
+    m_toolbar->addAction(m_modalAction1);
+    m_toolbar->addAction(m_modalAction2);
+    m_toolbar->addAction(m_modalessAction);
 
     m_centerWidget = new QWidget(this);
     setCentralWidget(m_centerWidget);
@@ -96,4 +112,36 @@ void MainWindow::slot_toggled(bool state)
 void MainWindow::slot_triggered(bool state)
 {
     qDebug() << "triggered render:" << sender()->objectName() << "\t state:" << state;
+}
+
+
+void MainWindow::slot_TestDialog()
+{
+    QString objName = sender()->objectName();
+    QDialog *dialog = new QDialog(this);
+    QVBoxLayout *vbox = new QVBoxLayout(dialog);
+    QLabel *label = new QLabel(dialog);
+    vbox->addWidget(label);
+    dialog->resize(300, 150);
+    QFont font;
+    font.setPointSize(14);
+    dialog->setFont(font);
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+
+    if (objName.compare("m_modalAction1") == 0)
+    {
+        label->setText("This is a modal dailog,\n dialog->exec().");
+        dialog->exec();
+    }
+    else if (objName.compare("m_modalAction2") == 0)
+    {
+        label->setText("This is a modal dailog,\n dialog->setModal(true)\n dialog->show().");
+        dialog->setModal(true);
+        dialog->show();
+    }
+    else if (objName.compare("m_modalessAction") == 0)
+    {
+        label->setText("This is a modal dailog,\n dialog->show().");
+        dialog->show();
+    }
 }

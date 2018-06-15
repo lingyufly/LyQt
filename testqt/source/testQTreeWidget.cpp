@@ -54,7 +54,6 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
 
     if (m_treeWidget->indexOfTopLevelItem(item)!=-1)
         qDebug() << item->treeWidget()->objectName();
-
 }
 
 TestQTreeWidgetWidget::~TestQTreeWidgetWidget()

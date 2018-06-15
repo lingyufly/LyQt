@@ -11,6 +11,10 @@
 #include "testQTreeWidget.h"
 #include "testQStackedWidget.h"
 
+class QToolBar;
+class QAction;
+class QMenuBar;
+class QMenu;
 
 class MainWindow : public QMainWindow
 {
@@ -23,6 +27,14 @@ public:
     bool login();
 
 private:
+    QToolBar *m_toolbar;
+    QAction *m_action1;
+    QAction *m_action2;
+    QAction *m_modalAction1;
+    QAction *m_modalAction2;
+    QAction *m_modalessAction;
+    QMenuBar *m_menuBar;
+    QMenu *m_fileMenu;
     QWidget *m_centerWidget;
     QTabWidget *m_tabWidget;
     Login *m_loginDlg;
@@ -35,6 +47,7 @@ private:
 protected slots:
     void slot_toggled(bool checked);
     void slot_triggered(bool checked = false);
+    void slot_TestDialog();
 };
 
 #endif // MAINWINDOW_H

@@ -36,3 +36,7 @@ HEADERS += \
 
 DISTFILES += \
     ini/settings.ini 
+    
+RC_ICONS+=resource\sevent.ico
+
+RESOURCES+=testqt.qrc
