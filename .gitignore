@@ -45,3 +45,4 @@ GeneratedFiles
 *.vcxproj
 *.vcxproj.*
 .qmake.stash
+*.rc
