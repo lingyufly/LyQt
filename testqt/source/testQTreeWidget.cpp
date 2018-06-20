@@ -47,10 +47,19 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     item->setText(1, "52");
     item->setText(2, "53");
 
-    item = new QTreeWidgetItem(item);
-    item->setText(0, "531");
-    item->setText(1, "532");
-    item->setText(2, "533");
+    QTreeWidgetItem *item1;
+    item1 = new QTreeWidgetItem(item);
+    item1->setText(0, "531");
+    item1->setText(1, "532");
+    item1->setText(2, "533");
+
+    m_treeWidget->setDragEnabled(true);
+
+    qDebug() << m_treeWidget->topLevelItemCount();
+    m_treeWidget->insertTopLevelItem(1, item->clone());
+    qDebug() << m_treeWidget->topLevelItemCount();
+    delete item;
+    qDebug() << m_treeWidget->topLevelItemCount();
 
     if (m_treeWidget->indexOfTopLevelItem(item)!=-1)
         qDebug() << item->treeWidget()->objectName();

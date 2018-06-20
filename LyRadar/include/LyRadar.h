@@ -41,7 +41,7 @@ private:
     QColor m_groudColor;
     Mode m_mode;
 
-    QPixmap m_pix;
+    QPixmap *m_pix;
     void preDraw();
     void drawCircle(QPainter &painter);
     void drawArc(QPainter &painter);

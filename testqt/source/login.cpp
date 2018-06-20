@@ -86,11 +86,9 @@ int Login::loadusers()
     for (int i=0; i<len; i++)
     {
         settings->setArrayIndex(i);
-        qDebug()<<settings->value("user").toString()<<":"<<settings->value("pass").toString();
         m_users->insert(settings->value("user").toString(),settings->value("pass").toString());
     }
     settings->endArray();
     delete settings;
     return len;
 }
-

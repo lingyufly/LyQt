@@ -16,10 +16,10 @@ public:
     ~Mouse();
     void setupUi();
 protected:
-    void mousePressEvent(QMouseEvent *e);       //--鼠标按下事件
-    void mouseMoveEvent(QMouseEvent *e);    //--鼠标移动事件
-    void mouseReleaseEvent(QMouseEvent *e); //--鼠标释放（松开）事件
-    void mouseDoubleClickEvent(QMouseEvent *e); //--鼠标双击事件
+    void mousePressEvent(QMouseEvent *e);       //--榧犳爣鎸変笅浜嬩欢
+    void mouseMoveEvent(QMouseEvent *e);        //--榧犳爣绉诲姩浜嬩欢
+    void mouseReleaseEvent(QMouseEvent *e);     //--榧犳爣閲婃斁浜嬩欢
+    void mouseDoubleClickEvent(QMouseEvent *e); //--榧犳爣鍙屽嚮浜嬩欢
 
     protected slots:
     void changeMouseTrckState(bool stat);

@@ -6,7 +6,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QLabel>
-#include <QTextBrowser>
+#include <QTextBrowser> 
 #include <QCheckBox>
 #include <QPalette>
 
@@ -54,7 +54,6 @@ void Mouse::setupUi()
     m_textBrowser = new QTextBrowser(this);
     mainLayout->addWidget(m_textBrowser);
 
-    // 默认鼠标移动事件是在鼠标按下时才可以被捕获，通过设置setMouseTracking(true)可以在鼠标不按下时也被捕获
     setMouseTracking(false);
 
     connect(m_mouseTrackCbox, SIGNAL(toggled(bool)), this, SLOT(changeMouseTrckState(bool)));
@@ -62,7 +61,7 @@ void Mouse::setupUi()
 
 void Mouse::mouseMoveEvent(QMouseEvent *e)
 {
-    // 防抖动
+    // 防止抖动
     ct = QTime::currentTime();
     if (pt.msecsTo(ct) <= 100)
         return;

@@ -48,14 +48,10 @@ void UserInfo::setupUi()
     headers->push_back("Info");
     m_infoTable->setColumnCount(3);
     m_infoTable->setHorizontalHeaderLabels(*headers);
-    //设置表头背景色
     m_infoTable->horizontalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
     m_infoTable->verticalHeader()->setStyleSheet("QHeaderView::section{background:skyblue;}");
-    // 设置列填充满宽度
     m_infoTable->horizontalHeader()->setStretchLastSection(true);
-    //设置选中时为一行
     m_infoTable->setSelectionBehavior(QTableWidget::SelectRows);
-    //设置只允许单行选中
     m_infoTable->setSelectionMode(QTableWidget::SingleSelection);
     delete headers;
 
@@ -129,8 +125,6 @@ int UserInfo::additem()
 {
     m_itemSize += 1;
     m_infoTable->setRowCount(m_itemSize);
-    // 不在新添加的行的第一个元素中写入内容，无法使其变为正在编辑状态
-    //m_infoTable->setItem(itemSize-1,0,new QTableWidgetItem(" "));
     m_infoTable->setFocus();
     m_infoTable->selectRow(m_itemSize - 1);
     m_infoTable->editItem(m_infoTable->item(m_itemSize - 1, 0));

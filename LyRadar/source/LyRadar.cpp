@@ -23,8 +23,8 @@ LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
     m_fontColor = Qt::white;
     m_rotate = 0;
     m_dir = true;
-    m_pix = QPixmap(size());
-    m_pix.fill(this, 0, 0);
+    m_pix = new QPixmap(size());
+    //m_pix->fill(this, 0, 0);
     setMode(ArcMode);
     startTimer(50);
 }
@@ -39,7 +39,7 @@ LyRadar::~LyRadar()
 void LyRadar::timerEvent(QTimerEvent *event)
 {
     qDebug() << "timerEvent, id=" << event->timerId();
-    //定时器，测试使用
+    //瀹氭椂鍣紝娴嬭瘯浣跨敤
     if (m_mode == CircleMode)
     {
         m_rotate += 1;
@@ -69,14 +69,19 @@ void LyRadar::paintEvent(QPaintEvent *event)
 {
     qDebug() << "paintEvent";
     QPainter p(this);
-    p.drawPixmap(0, 0, m_pix);
+    p.drawPixmap(0, 0, *m_pix);
 }
 
 
 void LyRadar::preDraw()
 {
-    m_pix = QPixmap(size());
-    QPainter painter(&m_pix);
+    if (m_pix != NULL)
+    {
+        delete m_pix;
+        m_pix = NULL;
+    }
+    m_pix = new QPixmap(size());
+    QPainter painter(m_pix);
     painter.setRenderHint(QPainter::Antialiasing);
     if (m_mode==CircleMode)
         drawCircle(painter);
@@ -116,7 +121,7 @@ void LyRadar::drawCircle(QPainter &painter)
 
     QConicalGradient gradient;
     gradient.setCenter(rect.center());
-    gradient.setColorAt(0.4, QColor(255, 255, 255, 100)); //从渐变角度开始0.5 - 0.75为扇形区域，由于Int类型计算不精确，将范围扩大到0.4-0.8
+    gradient.setColorAt(0.4, QColor(255, 255, 255, 100));
     gradient.setColorAt(0.8, QColor(255, 255, 255, 0));
     painter.setBrush(QBrush(gradient));
     painter.setPen(Qt::NoPen);
@@ -170,8 +175,7 @@ void LyRadar::drawArc(QPainter & painter)
 
     QConicalGradient gradient;
     gradient.setCenter(rect.center());
-    //gradient.setAngle(m_rotate + 180); //渐变与旋转方向恰好相反，以扇形相反的边作为渐变角度。
-    gradient.setColorAt(0.4, QColor(255, 255, 255, 100)); //从渐变角度开始0.5 - 0.75为扇形区域，由于Int类型计算不精确，将范围扩大到0.4-0.8
+    gradient.setColorAt(0.4, QColor(255, 255, 255, 100)); 
     gradient.setColorAt(0.8, QColor(255, 255, 255, 0));
     painter.setBrush(QBrush(gradient));
     painter.setPen(Qt::NoPen);
