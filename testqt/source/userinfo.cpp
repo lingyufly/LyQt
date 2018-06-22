@@ -53,6 +53,7 @@ void UserInfo::setupUi()
     m_infoTable->horizontalHeader()->setStretchLastSection(true);
     m_infoTable->setSelectionBehavior(QTableWidget::SelectRows);
     m_infoTable->setSelectionMode(QTableWidget::SingleSelection);
+    m_infoTable->setDragEnabled(true);
     delete headers;
 
     mainLayout->addWidget(m_infoTable);

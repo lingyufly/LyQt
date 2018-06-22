@@ -2,10 +2,11 @@
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QGridLayout>
-#include <QStringList>
 #include <QPushButton>
 #include <QList>
+#include <QStringList>
 #include <QDebug>
+#include <QHeaderView>
 
 TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl)
     :QWidget(parent, fl)
@@ -16,8 +17,9 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     mainLayout->addWidget(m_treeWidget);
     
     m_treeWidget->setColumnCount(3);
+    m_treeWidget->header()->setStretchLastSection(false);
+    m_treeWidget->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
     m_treeWidget->setHeaderLabels(QStringList() << "AAA" << "BBB" << "CCC");
-    m_treeWidget->headerItem()->setText(0, "000");
 
     connect(m_treeWidget, &QTreeWidget::currentItemChanged, this, &TestQTreeWidgetWidget::slot_CurrentChanged);
     connect(m_treeWidget, &QTreeWidget::itemSelectionChanged, this, &TestQTreeWidgetWidget::slot_SelectedChanged);
@@ -52,17 +54,6 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     item1->setText(0, "531");
     item1->setText(1, "532");
     item1->setText(2, "533");
-
-    m_treeWidget->setDragEnabled(true);
-
-    qDebug() << m_treeWidget->topLevelItemCount();
-    m_treeWidget->insertTopLevelItem(1, item->clone());
-    qDebug() << m_treeWidget->topLevelItemCount();
-    delete item;
-    qDebug() << m_treeWidget->topLevelItemCount();
-
-    if (m_treeWidget->indexOfTopLevelItem(item)!=-1)
-        qDebug() << item->treeWidget()->objectName();
 }
 
 TestQTreeWidgetWidget::~TestQTreeWidgetWidget()
