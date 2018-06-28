@@ -10,6 +10,7 @@
 #include "test.h"
 #include "testQTreeWidget.h"
 #include "testQStackedWidget.h"
+#include "wizard.h"
 
 class QToolBar;
 class QAction;
@@ -33,6 +34,7 @@ private:
     QAction *m_modalAction1;
     QAction *m_modalAction2;
     QAction *m_modalessAction;
+    QAction *m_wizardAction;
     QMenuBar *m_menuBar;
     QMenu *m_fileMenu;
     QWidget *m_centerWidget;
@@ -43,11 +45,13 @@ private:
     TestQTreeWidgetWidget *m_qtreewidgettWidget;
     TestWidget *m_testWidget;
     TestQStackedWidget *m_qstackedwidgetWidget;
+    MyWizard *m_wizard;
 
 protected slots:
     void slot_toggled(bool checked);
     void slot_triggered(bool checked = false);
-    void slot_TestDialog();
+    void slot_testDialog();
+    void slot_testWizard();
 };
 
 #endif // MAINWINDOW_H

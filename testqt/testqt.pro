@@ -22,7 +22,8 @@ SOURCES += \
 		source/mouse.cpp \
 		source/testQTreeWidget.cpp \
         source/test.cpp \
-        source/testQStackedWidget.cpp
+        source/testQStackedWidget.cpp \
+        source/wizard.cpp
 
 HEADERS += \
         include/mainwindow.h \
@@ -31,7 +32,8 @@ HEADERS += \
 		include/mouse.h \
 		include/testQTreeWidget.h \
         include/test.h \
-        include/testQStackedWidget.h
+        include/testQStackedWidget.h \
+        include/wizard.h
 		
 
 DISTFILES += \

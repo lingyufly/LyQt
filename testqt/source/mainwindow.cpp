@@ -58,13 +58,17 @@ void MainWindow::setupUi()
 
     m_modalAction1 = new QAction("Modal1 Action", this);
     m_modalAction1->setObjectName("m_modalAction1");
-    connect(m_modalAction1, &QAction::triggered, this, &MainWindow::slot_TestDialog);
+    connect(m_modalAction1, &QAction::triggered, this, &MainWindow::slot_testDialog);
     m_modalAction2 = new QAction("Modal2 Action", this);
     m_modalAction2->setObjectName("m_modalAction2");
-    connect(m_modalAction2, &QAction::triggered, this, &MainWindow::slot_TestDialog);
+    connect(m_modalAction2, &QAction::triggered, this, &MainWindow::slot_testDialog);
     m_modalessAction = new QAction("Modaless Action", this);
     m_modalessAction->setObjectName("m_modalessAction");
-    connect(m_modalessAction, &QAction::triggered, this, &MainWindow::slot_TestDialog);
+    connect(m_modalessAction, &QAction::triggered, this, &MainWindow::slot_testDialog);
+
+    m_wizardAction = new QAction("Wizard Action", this);
+    m_wizardAction->setObjectName("m_wizardAction");
+    connect(m_wizardAction, &QAction::triggered, this, &MainWindow::slot_testWizard);
 
     m_menuBar = menuBar();
     m_fileMenu = new QMenu("File", this);
@@ -80,6 +84,7 @@ void MainWindow::setupUi()
     m_toolbar->addAction(m_modalAction1);
     m_toolbar->addAction(m_modalAction2);
     m_toolbar->addAction(m_modalessAction);
+    m_toolbar->addAction(m_wizardAction);
 
     m_centerWidget = new QWidget(this);
     setCentralWidget(m_centerWidget);
@@ -115,7 +120,7 @@ void MainWindow::slot_triggered(bool state)
 }
 
 
-void MainWindow::slot_TestDialog()
+void MainWindow::slot_testDialog()
 {
     QString objName = sender()->objectName();
     QDialog *dialog = new QDialog(this);
@@ -144,4 +149,11 @@ void MainWindow::slot_TestDialog()
         label->setText("This is a modal dailog,\n dialog->show().");
         dialog->show();
     }
+}
+
+
+void MainWindow::slot_testWizard()
+{
+    m_wizard = new MyWizard(this);
+    m_wizard->show();
 }
