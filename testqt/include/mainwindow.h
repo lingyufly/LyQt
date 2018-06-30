@@ -11,6 +11,7 @@
 #include "testQTreeWidget.h"
 #include "testQStackedWidget.h"
 #include "wizard.h"
+#include "fileio.h"
 
 class QToolBar;
 class QAction;
@@ -46,6 +47,7 @@ private:
     TestWidget *m_testWidget;
     TestQStackedWidget *m_qstackedwidgetWidget;
     MyWizard *m_wizard;
+    FileIOWidget *m_fileioWidget;
 
 protected slots:
     void slot_toggled(bool checked);

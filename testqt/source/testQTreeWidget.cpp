@@ -48,12 +48,14 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     item->setText(0, "51");
     item->setText(1, "52");
     item->setText(2, "53");
+    item->setCheckState(0, Qt::Checked);
 
     QTreeWidgetItem *item1;
     item1 = new QTreeWidgetItem(item);
     item1->setText(0, "531");
     item1->setText(1, "532");
     item1->setText(2, "533");
+    item1->setCheckState(0, Qt::Checked);
 }
 
 TestQTreeWidgetWidget::~TestQTreeWidgetWidget()

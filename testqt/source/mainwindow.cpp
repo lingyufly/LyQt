@@ -107,6 +107,9 @@ void MainWindow::setupUi()
 
     m_qstackedwidgetWidget = new TestQStackedWidget();
     m_tabWidget->addTab(m_qstackedwidgetWidget, QString("TestQStackedWidget"));
+
+    m_fileioWidget = new FileIOWidget();
+    m_tabWidget->addTab(m_fileioWidget, QString("TestFileIoWidget"));
 }
 
 void MainWindow::slot_toggled(bool state)

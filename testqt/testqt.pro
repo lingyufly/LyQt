@@ -23,7 +23,8 @@ SOURCES += \
 		source/testQTreeWidget.cpp \
         source/test.cpp \
         source/testQStackedWidget.cpp \
-        source/wizard.cpp
+        source/wizard.cpp \
+        source/fileio.cpp
 
 HEADERS += \
         include/mainwindow.h \
@@ -33,7 +34,8 @@ HEADERS += \
 		include/testQTreeWidget.h \
         include/test.h \
         include/testQStackedWidget.h \
-        include/wizard.h
+        include/wizard.h \
+        include/fileio.h
 		
 
 DISTFILES += \
@@ -41,4 +43,4 @@ DISTFILES += \
     
 RC_ICONS+=resource/sevent.ico
 
-RESOURCES+=resource/testqt.qrc
+RESOURCES+=resource/testqt.qrc testqt.pro
