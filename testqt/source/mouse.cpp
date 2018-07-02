@@ -22,15 +22,6 @@ Mouse::~Mouse()
 {
 }
 
-
-void Mouse::mousePressEvent(QMouseEvent *e)
-{
-    if (e->button() == Qt::LeftButton)
-        m_textBrowser->append("Mouse left button press");
-    else
-        m_textBrowser->append("Mouse right button press");
-}
-
 void Mouse::setupUi()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
@@ -57,6 +48,14 @@ void Mouse::setupUi()
     setMouseTracking(false);
 
     connect(m_mouseTrackCbox, SIGNAL(toggled(bool)), this, SLOT(changeMouseTrckState(bool)));
+}
+
+void Mouse::mousePressEvent(QMouseEvent *e)
+{
+    if (e->button() == Qt::LeftButton)
+        m_textBrowser->append("Mouse left button press");
+    else
+        m_textBrowser->append("Mouse right button press");
 }
 
 void Mouse::mouseMoveEvent(QMouseEvent *e)
