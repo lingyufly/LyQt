@@ -21,6 +21,7 @@ protected slots:
     void savedata();
     int deleteitem();
     int additem();
+    void slot_itemChanged();
 
 private:
     QMap<QString, QString> *m_users;

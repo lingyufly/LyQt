@@ -72,6 +72,7 @@ void UserInfo::setupUi()
     connect(m_addBtn, SIGNAL(clicked(bool)), this, SLOT(additem()));
     connect(m_saveBtn, SIGNAL(clicked(bool)), this, SLOT(savedata()));
     connect(m_delBtn, SIGNAL(clicked(bool)), this, SLOT(deleteitem()));
+    connect(m_infoTable, &QTableWidget::itemChanged, this, &UserInfo::slot_itemChanged);
 }
 
 int UserInfo::loaddata()
@@ -130,4 +131,10 @@ int UserInfo::additem()
     m_infoTable->selectRow(m_itemSize - 1);
     m_infoTable->editItem(m_infoTable->item(m_itemSize - 1, 0));
     return 1;
+}
+
+
+void UserInfo::slot_itemChanged()
+{
+    qDebug() << "slot_itemChanged";
 }

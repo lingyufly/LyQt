@@ -26,6 +26,8 @@ void MyWizard::setupUi()
     QHBoxLayout *hbox = NULL;
     QVBoxLayout *vbox = NULL;
     setWindowTitle("Test QWizard");
+    setWizardStyle(QWizard::ClassicStyle);
+
     m_firstPage = new QWizardPage(this);
     vbox = new QVBoxLayout(m_firstPage);
     QLabel *label = new QLabel(m_firstPage);

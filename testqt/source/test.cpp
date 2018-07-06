@@ -3,8 +3,11 @@
 #include <QDateTimeEdit>
 #include <QBoxLayout>
 #include <QGroupBox>
+#include <QPushButton>
 #include <QButtonGroup>
 #include <QRadioButton>
+#include <QColor>
+#include <QPalette>
 
 TestWidget::TestWidget(QWidget *parent, Qt::WindowFlags fl)
     :QWidget(parent, fl)
@@ -36,6 +39,15 @@ void TestWidget::setupUi()
     m_rbtn2->setChecked(true);
     groupbox->setEnabled(false);
     main_layout->addWidget(groupbox);
+
+    QPushButton *m_colorBtn = new QPushButton(this);
+    QPalette pal = m_colorBtn->palette();
+    pal.setColor(QPalette::Window, Qt::blue);
+    m_colorBtn->setPalette(pal);
+    m_colorBtn->setAutoFillBackground(true);
+    m_colorBtn->setFlat(true);
+    m_colorBtn->setBackgroundRole(QPalette::Window);
+    main_layout->addWidget(m_colorBtn);
 
     spacer = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     main_layout->addSpacerItem(spacer);

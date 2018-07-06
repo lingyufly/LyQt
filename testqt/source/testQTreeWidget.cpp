@@ -18,8 +18,10 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     
     m_treeWidget->setColumnCount(3);
     m_treeWidget->header()->setStretchLastSection(false);
-    m_treeWidget->header()->setSectionResizeMode(QHeaderView::ResizeToContents);
+    m_treeWidget->header()->setSectionResizeMode(QHeaderView::Interactive);
     m_treeWidget->setHeaderLabels(QStringList() << "AAA" << "BBB" << "CCC");
+    m_treeWidget->setSortingEnabled(true);
+    m_treeWidget->sortByColumn(0, Qt::DescendingOrder);
 
     connect(m_treeWidget, &QTreeWidget::currentItemChanged, this, &TestQTreeWidgetWidget::slot_CurrentChanged);
     connect(m_treeWidget, &QTreeWidget::itemSelectionChanged, this, &TestQTreeWidgetWidget::slot_SelectedChanged);
@@ -48,14 +50,15 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     item->setText(0, "51");
     item->setText(1, "52");
     item->setText(2, "53");
-    item->setCheckState(0, Qt::Checked);
 
     QTreeWidgetItem *item1;
     item1 = new QTreeWidgetItem(item);
     item1->setText(0, "531");
     item1->setText(1, "532");
     item1->setText(2, "533");
-    item1->setCheckState(0, Qt::Checked);
+
+    //修改完内容后，自适应宽度
+    m_treeWidget->header()->resizeSections(QHeaderView::ResizeToContents);
 }
 
 TestQTreeWidgetWidget::~TestQTreeWidgetWidget()
