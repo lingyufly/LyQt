@@ -24,7 +24,6 @@ LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
     m_rotate = 0;
     m_dir = true;
     m_pix = new QPixmap(size());
-    //m_pix->fill(this, 0, 0);
     setMode(ArcMode);
     startTimer(50);
 }

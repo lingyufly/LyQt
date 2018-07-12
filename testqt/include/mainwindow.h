@@ -36,6 +36,7 @@ private:
     QAction *m_modalAction2;
     QAction *m_modalessAction;
     QAction *m_wizardAction;
+    QAction *m_filedialogAction;
     QMenuBar *m_menuBar;
     QMenu *m_fileMenu;
     QWidget *m_centerWidget;
@@ -54,6 +55,7 @@ protected slots:
     void slot_triggered(bool checked = false);
     void slot_testDialog();
     void slot_testWizard();
+    void slot_testFileDialog();
 };
 
 #endif // MAINWINDOW_H

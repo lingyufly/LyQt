@@ -8,6 +8,9 @@
 #include <QRadioButton>
 #include <QColor>
 #include <QPalette>
+#include <QListWidget>
+#include <QListWidgetItem>
+#include <QDebug>
 
 TestWidget::TestWidget(QWidget *parent, Qt::WindowFlags fl)
     :QWidget(parent, fl)
@@ -43,12 +46,30 @@ void TestWidget::setupUi()
     QPushButton *m_colorBtn = new QPushButton(this);
     QPalette pal = m_colorBtn->palette();
     pal.setColor(QPalette::Window, Qt::blue);
-    m_colorBtn->setPalette(pal);
     m_colorBtn->setAutoFillBackground(true);
     m_colorBtn->setFlat(true);
     m_colorBtn->setBackgroundRole(QPalette::Window);
     main_layout->addWidget(m_colorBtn);
 
+    QListWidget *m_listWidget = new QListWidget(this);
+    connect(m_listWidget, &QListWidget::currentTextChanged, this, &TestWidget::slot_test);
+    QListWidgetItem *item = new QListWidgetItem(m_listWidget);
+    item->setText("1");
+    item = new QListWidgetItem(m_listWidget);
+    item->setText("2");
+    item = new QListWidgetItem(m_listWidget);
+    item->setText("3");
+    main_layout->addWidget(m_listWidget);
+
+    m_listWidget->setCurrentItem(item);
+    item->setSelected(true);
+    item->setText("5555");
+
     spacer = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     main_layout->addSpacerItem(spacer);
+}
+
+void TestWidget::slot_test()
+{
+    qDebug() << "slot_test";
 }

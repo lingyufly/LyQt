@@ -54,6 +54,7 @@ void UserInfo::setupUi()
     m_infoTable->setSelectionBehavior(QTableWidget::SelectRows);
     m_infoTable->setSelectionMode(QTableWidget::SingleSelection);
     m_infoTable->setDragEnabled(true);
+    m_infoTable->setEditTriggers(QAbstractItemView::DoubleClicked);
     delete headers;
 
     mainLayout->addWidget(m_infoTable);
@@ -72,7 +73,7 @@ void UserInfo::setupUi()
     connect(m_addBtn, SIGNAL(clicked(bool)), this, SLOT(additem()));
     connect(m_saveBtn, SIGNAL(clicked(bool)), this, SLOT(savedata()));
     connect(m_delBtn, SIGNAL(clicked(bool)), this, SLOT(deleteitem()));
-    connect(m_infoTable, &QTableWidget::itemChanged, this, &UserInfo::slot_itemChanged);
+    connect(m_infoTable, &QTableWidget::currentItemChanged, this, &UserInfo::slot_itemChanged);
 }
 
 int UserInfo::loaddata()

@@ -12,7 +12,9 @@ public:
     ~TestWidget();
 
 protected:
-protected slots:
+
+protected slots :
+    void slot_test();
 
 private:
     void setupUi();

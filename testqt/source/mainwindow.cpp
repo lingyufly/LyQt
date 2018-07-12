@@ -11,6 +11,9 @@
 #include <QDialog>
 #include <QLabel>
 #include <QFont>
+#include <QFileDialog>
+#include <QMimeData>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -70,6 +73,10 @@ void MainWindow::setupUi()
     m_wizardAction->setObjectName("m_wizardAction");
     connect(m_wizardAction, &QAction::triggered, this, &MainWindow::slot_testWizard);
 
+    m_filedialogAction = new QAction("FileDialog Action", this);
+    m_filedialogAction->setObjectName("m_filedialogAction");
+    connect(m_filedialogAction, &QAction::triggered, this, &MainWindow::slot_testFileDialog);
+
     m_menuBar = menuBar();
     m_fileMenu = new QMenu("File", this);
     m_fileMenu->addAction(m_action1);
@@ -85,6 +92,7 @@ void MainWindow::setupUi()
     m_toolbar->addAction(m_modalAction2);
     m_toolbar->addAction(m_modalessAction);
     m_toolbar->addAction(m_wizardAction);
+    m_toolbar->addAction(m_filedialogAction);
 
     m_centerWidget = new QWidget(this);
     setCentralWidget(m_centerWidget);
@@ -159,4 +167,55 @@ void MainWindow::slot_testWizard()
 {
     m_wizard = new MyWizard(this);
     m_wizard->show();
+}
+
+
+class MFileDialog : public QFileDialog
+{
+public:
+    MFileDialog(QWidget *parent = Q_NULLPTR, const QString &caption = QString(), const QString &directory = QString(), const QString &filter = QString())
+        :QFileDialog(parent, caption, directory, filter)
+    {
+
+        //init();
+    }
+    MFileDialog(QWidget *parent, Qt::WindowFlags flags)
+        : QFileDialog(parent, flags)
+    {
+
+        //init();
+    }
+    void init()
+    {
+        QPushButton *test = new QPushButton(this);
+        test->setText("TTTTTTT");
+        //QLayout *ll = QFileDialog::layout();
+        //layout()->addWidget(test);
+        QObjectList widgets =  children();
+        for (int i = 0; i < widgets.length(); i++)
+        {
+            QObject *btn = widgets.at(i);
+            qDebug() << btn->objectName();
+        }
+    }
+protected:
+private:
+};
+
+
+
+void MainWindow::slot_testFileDialog()
+{
+    QString start = getenv("RUNHOME");
+    MFileDialog *m_fileDialog = new MFileDialog(this, "AAAAAAAAAAA", start);
+    m_fileDialog->setFileMode(QFileDialog::Directory);
+    
+    m_fileDialog->selectFile(start);
+    if (m_fileDialog->exec() == QDialog::Accepted)
+    {
+        QStringList files = m_fileDialog->selectedFiles();
+        for (QStringList::iterator it = files.begin(); it != files.end(); it++)
+            qDebug() << *it;
+    }
+    m_fileDialog->init();
 }

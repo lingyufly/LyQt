@@ -16,7 +16,6 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     m_treeWidget->setObjectName("m_treeWidget");
     mainLayout->addWidget(m_treeWidget);
     
-    m_treeWidget->setColumnCount(3);
     m_treeWidget->header()->setStretchLastSection(false);
     m_treeWidget->header()->setSectionResizeMode(QHeaderView::Interactive);
     m_treeWidget->setHeaderLabels(QStringList() << "AAA" << "BBB" << "CCC");
