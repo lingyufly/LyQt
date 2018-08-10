@@ -15,6 +15,7 @@ public:
 protected:
 
 protected slots :
+    void slot_ContextMenu();
     void slot_CurrentChanged();
     void slot_SelectedChanged();
 

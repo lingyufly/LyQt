@@ -21,6 +21,9 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
     m_treeWidget->setHeaderLabels(QStringList() << "AAA" << "BBB" << "CCC");
     m_treeWidget->setSortingEnabled(true);
     m_treeWidget->sortByColumn(0, Qt::DescendingOrder);
+    //使用自定义右键菜单
+    m_treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(m_treeWidget, &QTreeWidget::customContextMenuRequested, this, &TestQTreeWidgetWidget::slot_ContextMenu);
 
     connect(m_treeWidget, &QTreeWidget::currentItemChanged, this, &TestQTreeWidgetWidget::slot_CurrentChanged);
     connect(m_treeWidget, &QTreeWidget::itemSelectionChanged, this, &TestQTreeWidgetWidget::slot_SelectedChanged);
@@ -62,6 +65,11 @@ TestQTreeWidgetWidget::TestQTreeWidgetWidget(QWidget *parent, Qt::WindowFlags fl
 
 TestQTreeWidgetWidget::~TestQTreeWidgetWidget()
 {
+}
+
+void TestQTreeWidgetWidget::slot_ContextMenu()
+{
+    qDebug() << "slot_ContextMenu";
 }
 
 void TestQTreeWidgetWidget::slot_CurrentChanged()

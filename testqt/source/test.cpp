@@ -11,6 +11,8 @@
 #include <QListWidget>
 #include <QListWidgetItem>
 #include <QDebug>
+#include <QComboBox>
+#include <QLineEdit>
 
 TestWidget::TestWidget(QWidget *parent, Qt::WindowFlags fl)
     :QWidget(parent, fl)
@@ -53,17 +55,19 @@ void TestWidget::setupUi()
 
     QListWidget *m_listWidget = new QListWidget(this);
     connect(m_listWidget, &QListWidget::currentTextChanged, this, &TestWidget::slot_test);
-    QListWidgetItem *item = new QListWidgetItem(m_listWidget);
-    item->setText("1");
-    item = new QListWidgetItem(m_listWidget);
-    item->setText("2");
-    item = new QListWidgetItem(m_listWidget);
-    item->setText("3");
+    QListWidgetItem *item = NULL;
+    for (int i = 0; i < 40; i++)
+    {
+        item = new QListWidgetItem(m_listWidget);
+        item->setText(QString::number(i));
+    }
     main_layout->addWidget(m_listWidget);
 
-    m_listWidget->setCurrentItem(item);
-    item->setSelected(true);
-    item->setText("5555");
+    QComboBox *m_combobox = new QComboBox(this);
+    m_combobox->setEditable(true);
+    m_combobox->addItem("aaa");
+    connect(m_combobox->lineEdit(), &QLineEdit::returnPressed, this, &TestWidget::slot_test);
+    main_layout->addWidget(m_combobox);
 
     spacer = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     main_layout->addSpacerItem(spacer);
