@@ -14,6 +14,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 
+
 TestWidget::TestWidget(QWidget *parent, Qt::WindowFlags fl)
     :QWidget(parent, fl)
 {
@@ -51,6 +52,7 @@ void TestWidget::setupUi()
     m_colorBtn->setAutoFillBackground(true);
     m_colorBtn->setFlat(true);
     m_colorBtn->setBackgroundRole(QPalette::Window);
+    connect(m_colorBtn, &QPushButton::clicked, this, &TestWidget::slot_test);
     main_layout->addWidget(m_colorBtn);
 
     QListWidget *m_listWidget = new QListWidget(this);
