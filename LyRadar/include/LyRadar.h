@@ -9,6 +9,32 @@ class QTimerEvent;
 class QPoint;
 class QColor;
 
+class Point
+{
+public:
+    Point()
+    {
+        m_angle = 0.0;
+        m_distance = 0.0;
+    }
+    Point(double angle, double distance)
+    {
+        m_angle = angle;
+        m_distance = distance;
+    }
+    double getAngle()
+    {
+        return m_angle;
+    }
+    double getDistance()
+    {
+        return m_distance;
+    }
+private:
+    double m_angle;
+    double m_distance;
+};
+
 class LyRadar : public QWidget
 {
     Q_OBJECT
@@ -22,6 +48,15 @@ public:
 
     void pushPoint(double angle, double distance);
 
+    double getMaxDistance()
+    {
+        return m_maxDistance;
+    }
+    void setMaxDistance(double maxDistance)
+    {
+        m_maxDistance = maxDistance;
+    }
+
 private:
     int m_width;
     int m_height;
@@ -33,7 +68,7 @@ private:
     QColor m_fontColor;
     QColor m_groudColor;
 
-    QVector<QPointF> m_points;
+    QVector<Point> m_points;
 
     QPixmap *m_pix;
     void preDraw();

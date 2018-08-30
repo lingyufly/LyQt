@@ -23,7 +23,7 @@ LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
     m_dir = true;
     m_pix = new QPixmap(size());
     m_maxDistance = 100;
-    startTimer(50);
+    startTimer(1);
 }
 
 
@@ -39,14 +39,14 @@ void LyRadar::timerEvent(QTimerEvent *event)
     qDebug() << "timerEvent, id=" << event->timerId();
     
     if (m_dir)
-        m_rotate += 1.0;
+        m_rotate += 0.1;
     else
-        m_rotate -= 1.0;
+        m_rotate -= 0.1;
     if (m_rotate > 180.0)
         m_dir = false;
     if (m_rotate < 0)
         m_dir = true;
-    pushPoint(m_rotate, rand()%100);
+    pushPoint(m_rotate, rand()%100+40);
 }
 
 
@@ -63,11 +63,8 @@ void LyRadar::pushPoint(double angle, double distance)
     QPainter painter(m_pix);
     painter.setRenderHint(QPainter::Antialiasing);
     preDraw();
-    //draw background
     drawArc(painter);
-    //draw scan line
     drawScan(painter, angle);
-    //draw points
     drawPoints(painter);
     if (angle > 180 || angle < 0)
         m_points.clear();
@@ -81,21 +78,6 @@ void LyRadar::paintEvent(QPaintEvent *event)
     qDebug() << "paintEvent";
     QPainter p(this);
     p.drawPixmap(0, 0, *m_pix);
-}
-
-void LyRadar::addPoint(double angle, double distance)
-{
-    if (distance >= m_maxDistance)
-        return;
-
-    //获得点坐标
-
-    double d=m_radius*(distance / m_maxDistance);
-    qreal px = m_center.x() + d * cos(angle*3.14 / 180);
-    qreal py = m_center.y() - d * sin(angle*3.14 / 180);
-    m_points.push_back(QPointF(px, py));
-
-    return;
 }
 
 void LyRadar::preDraw()
@@ -176,10 +158,26 @@ void LyRadar::drawScan(QPainter & painter, double angle)
         painter.drawPie(m_rect, angle * 16, 30 * 16);
 }
 
+void LyRadar::addPoint(double angle, double distance)
+{
+    m_points.push_back(Point(angle, distance));
+    return;
+}
+
 void LyRadar::drawPoints(QPainter & painter)
 {
-    for each (QPointF point in m_points)
+    for each (Point point in m_points)
     {
-        painter.drawEllipse(point, 1, 1);
+        if (point.getDistance() > m_maxDistance)
+            continue;
+        double d = m_radius * (point.getDistance() / m_maxDistance);
+        qreal px1 = m_center.x() + d * cos(point.getAngle()*3.14 / 180);
+        qreal py1 = m_center.y() - d * sin(point.getAngle()*3.14 / 180);
+        
+        qreal px2 = m_center.x() + m_radius * cos(point.getAngle() * 3.14 / 180);
+        qreal py2 = m_center.y() - m_radius * sin(point.getAngle() * 3.14 / 180);
+
+        painter.setPen(Qt::gray);
+        painter.drawLine(QPointF(px1, py1), QPointF(px2, py2));
     }
 }
