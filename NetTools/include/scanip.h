@@ -140,9 +140,9 @@ private:
     {
         QProcess *cmd = new QProcess();
 #ifdef _linux_
-        QString strArg = "ping -s 1 -c 1 " + ip;        //linux平台下的格式
+        QString strArg = "ping -s 1 -c 1 " + ip;        //linux骞冲彴涓嬬殑鏍煎紡
 #else
-        QString strArg = "ping " + ip + " -n 1 -w " + QString::number(1);  //windows下的格式
+        QString strArg = "ping " + ip + " -n 1 -w " + QString::number(1);  //windows涓嬬殑鏍煎紡
 #endif
         cmd->start(strArg);
         cmd->waitForReadyRead();
@@ -185,6 +185,7 @@ private:
     QTreeWidget *m_scanResultTreeWidget;
     QProgressBar *m_scanProgressBar;
     QPushButton *m_stopScanBtn;
+    QPushButton *m_startScanBtn;
     void setupUi();
 
     QList<QNetworkInterface> m_interfaceList;

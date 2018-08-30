@@ -35,33 +35,49 @@ void ScanIPWidget::setupUi()
     hbox = new QHBoxLayout(NULL);
     hbox->addWidget(m_InterfaceCombobox);
     hbox->addWidget(m_scanBtn);
-    hbox->setStretch(0, 3);
-    hbox->setStretch(1, 1);
     m_mainLayout->addLayout(hbox, 0, 0);
 
     m_addressTreeWidget = new QTreeWidget(this);
     m_addressTreeWidget->setHeaderLabels(QStringList() << "IP Address" << "IP Mask");
-    connect(m_addressTreeWidget, &QTreeWidget::currentItemChanged, this, &ScanIPWidget::scanIP);
+    m_addressTreeWidget->header()->setSectionResizeMode(QHeaderView::Stretch);
     m_addressTreeWidget->setIndentation(0);
+    connect(m_addressTreeWidget, &QTreeWidget::currentItemChanged, this, &ScanIPWidget::scanIP);
     m_mainLayout->addWidget(m_addressTreeWidget);
 
     m_scanResultTreeWidget = new QTreeWidget(this);
-    m_scanResultTreeWidget->setHeaderLabels(QStringList() << "IP Address" << "Mac Address" << "Hostname");
+    m_scanResultTreeWidget->setHeaderLabels(QStringList() << "IP Address" << "Mac Address" << "Host Name");
+    m_scanResultTreeWidget->header()->setSectionResizeMode(QHeaderView::Stretch);
+    m_scanResultTreeWidget->setIndentation(0);
     m_mainLayout->addWidget(m_scanResultTreeWidget);
 
     m_scanProgressBar = new QProgressBar(this);
+    m_startScanBtn = new QPushButton("Start", this);
     m_stopScanBtn = new QPushButton("Stop", this);
     connect(m_stopScanBtn, &QPushButton::clicked, m_scanIP, &GetOnlineIP::stop);
     hbox = new QHBoxLayout(NULL);
     hbox->addWidget(m_scanProgressBar);
+    hbox->addWidget(m_startScanBtn);
     hbox->addWidget(m_stopScanBtn);
     m_mainLayout->addLayout(hbox, 3, 0);
+    resize(400, 600);
 }
 
 void ScanIPWidget::getInterfaceList()
 {
-    m_interfaceList = QNetworkInterface::allInterfaces();
-    
+    QList<QNetworkInterface> items = QNetworkInterface::allInterfaces();
+    m_interfaceList.clear();
+    for each(QNetworkInterface item in items)
+    {
+        if (item.flags().testFlag(QNetworkInterface::IsUp)
+            && item.flags().testFlag(QNetworkInterface::IsRunning)
+            && item.flags().testFlag(QNetworkInterface::CanBroadcast)
+            && item.flags().testFlag(QNetworkInterface::CanMulticast)
+            && !item.flags().testFlag(QNetworkInterface::IsLoopBack))
+        {
+            m_interfaceList.append(item);
+        }
+    }
+
     m_InterfaceCombobox->clear();
     for each(QNetworkInterface item in m_interfaceList)
     {
@@ -78,6 +94,7 @@ void ScanIPWidget::changeAdapter()
 
     QTreeWidgetItem *item = NULL;
     QNetworkInterface interface = m_interfaceList.at(index);
+    qDebug() << "------------------------------------------------------------";
     qDebug() << "Adapter Name:" << interface.name();
     qDebug() << "Adapter Address:" << interface.hardwareAddress();
 
@@ -86,9 +103,7 @@ void ScanIPWidget::changeAdapter()
     {
         if (addressEntryItem.ip().protocol() == QAbstractSocket::IPv4Protocol)
         {
-            qDebug() << "------------------------------------------------------------";
-            qDebug() << "IP Address:" << addressEntryItem.ip().toString();
-            qDebug() << "IP Mask:" << addressEntryItem.netmask().toString();
+            qDebug() << "IP Address:" << addressEntryItem.ip().toString() << "    IP Mask:" << addressEntryItem.netmask().toString();
             item = new QTreeWidgetItem(m_addressTreeWidget);
             item->setText(0, addressEntryItem.ip().toString());
             item->setText(1, addressEntryItem.netmask().toString());
@@ -107,12 +122,12 @@ void ScanIPWidget::scanIP()
     QTreeWidgetItem *item = m_addressTreeWidget->currentItem();
     if (item == NULL)
         return;
-    
+
     m_scanIP->setIpInfo(item->text(0), item->text(1));
     if (m_scanIP->checkAddress())
     {
         int max = m_scanIP->getAllIP();
-        m_scanProgressBar->setMaximum(max);
+        m_scanProgressBar->setMaximum(max - 1);
         m_scanIP->start();
     }
 }
