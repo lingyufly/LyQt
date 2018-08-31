@@ -1,5 +1,5 @@
 #include "scanip.h"
-#include <QtNetwork/QNetworkInterface>
+#include <QNetworkInterface>
 #include <QtCore/QList>
 #include <QLayout>
 #include <QGridLayout>
@@ -7,12 +7,13 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QHeaderView>
+#include <QSizePolicy>
 
 ScanIPWidget::ScanIPWidget(QWidget *parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
 {
     setupUi();
-    m_scanBtn->click();
+    m_scanInterfaceBtn->click();
 }
 
 ScanIPWidget::~ScanIPWidget()
@@ -23,25 +24,27 @@ ScanIPWidget::~ScanIPWidget()
 void ScanIPWidget::setupUi()
 {
     m_scanIP = new GetOnlineIP();
-    connect(m_scanIP, &GetOnlineIP::getNewIP, this, &ScanIPWidget::addIP);
+    connect(m_scanIP, &GetOnlineIP::getNewIP, this, &ScanIPWidget::addIPToTreeWidget);
+    connect(m_scanIP, &GetOnlineIP::getAllTPCount, this, &ScanIPWidget::scanAllIPCount);
+    connect(m_scanIP, &GetOnlineIP::finishedScan, this, &ScanIPWidget::scanFinished);
 
     QHBoxLayout *hbox = NULL;
     QVBoxLayout *vbox = NULL;
     m_mainLayout = new QGridLayout(this);
     m_InterfaceCombobox = new QComboBox(this);
+    m_InterfaceCombobox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     connect(m_InterfaceCombobox, static_cast<void(QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ScanIPWidget::changeAdapter);
-    m_scanBtn = new QPushButton("Scan", this);
-    connect(m_scanBtn, &QPushButton::clicked, this, &ScanIPWidget::getInterfaceList);
+    m_scanInterfaceBtn = new QPushButton("Scan", this);
+    connect(m_scanInterfaceBtn, &QPushButton::clicked, this, &ScanIPWidget::getInterfaceList);
     hbox = new QHBoxLayout(NULL);
     hbox->addWidget(m_InterfaceCombobox);
-    hbox->addWidget(m_scanBtn);
+    hbox->addWidget(m_scanInterfaceBtn);
     m_mainLayout->addLayout(hbox, 0, 0);
 
     m_addressTreeWidget = new QTreeWidget(this);
     m_addressTreeWidget->setHeaderLabels(QStringList() << "IP Address" << "IP Mask");
     m_addressTreeWidget->header()->setSectionResizeMode(QHeaderView::Stretch);
     m_addressTreeWidget->setIndentation(0);
-    connect(m_addressTreeWidget, &QTreeWidget::currentItemChanged, this, &ScanIPWidget::scanIP);
     m_mainLayout->addWidget(m_addressTreeWidget);
 
     m_scanResultTreeWidget = new QTreeWidget(this);
@@ -52,7 +55,9 @@ void ScanIPWidget::setupUi()
 
     m_scanProgressBar = new QProgressBar(this);
     m_startScanBtn = new QPushButton("Start", this);
+    connect(m_startScanBtn, &QPushButton::clicked, this, &ScanIPWidget::scanCtrl);
     m_stopScanBtn = new QPushButton("Stop", this);
+    m_stopScanBtn->setEnabled(false);
     connect(m_stopScanBtn, &QPushButton::clicked, m_scanIP, &GetOnlineIP::stop);
     hbox = new QHBoxLayout(NULL);
     hbox->addWidget(m_scanProgressBar);
@@ -111,28 +116,59 @@ void ScanIPWidget::changeAdapter()
     }
 }
 
-void ScanIPWidget::scanIP()
+void ScanIPWidget::scanCtrl()
 {
-    if (m_scanIP->isRunning())
+    if (m_startScanBtn->text().compare("Start") == 0)
     {
-        m_scanIP->stop();
-    }
-    m_scanResultTreeWidget->clear();
-    m_scanProgressBar->setValue(0);
-    QTreeWidgetItem *item = m_addressTreeWidget->currentItem();
-    if (item == NULL)
-        return;
+        QTreeWidgetItem *item = m_addressTreeWidget->currentItem();
+        if (item == NULL)
+            return;
 
-    m_scanIP->setIpInfo(item->text(0), item->text(1));
-    if (m_scanIP->checkAddress())
-    {
-        int max = m_scanIP->getAllIP();
-        m_scanProgressBar->setMaximum(max - 1);
+        m_scanResultTreeWidget->clear();
+        m_scanProgressBar->setValue(0);
+        
+        m_scanIP->setIpInfo(item->text(0), item->text(1));
         m_scanIP->start();
+        m_startScanBtn->setText("Pause");
+
+        m_InterfaceCombobox->setEnabled(false);
+        m_scanInterfaceBtn->setEnabled(false);
+        m_addressTreeWidget->setEnabled(false);
+        //m_scanResultTreeWidget->setEnabled(false);
+        m_stopScanBtn->setEnabled(true);
+    }
+    else if (m_startScanBtn->text().compare("Pause") == 0)
+    {
+        m_scanIP->pause();
+        m_startScanBtn->setText("Go On");
+    }
+    else if (m_startScanBtn->text().compare("Go On") == 0)
+    {
+        m_scanIP->goon();
+        m_startScanBtn->setText("Pause");
     }
 }
 
-void ScanIPWidget::addIP(int num, ipinfo_t ipinfo)
+void ScanIPWidget::scanAllIPCount(int count)
+{
+    if (count < 0)
+        return;
+    else if (count == 0)
+        m_scanProgressBar->setMaximum(0);
+    else
+        m_scanProgressBar->setMaximum(count - 1);
+}
+void ScanIPWidget::scanFinished()
+{
+    m_startScanBtn->setText("Start");
+    m_InterfaceCombobox->setEnabled(true);
+    m_scanInterfaceBtn->setEnabled(true);
+    m_addressTreeWidget->setEnabled(true);
+    //m_scanResultTreeWidget->setEnabled(true);
+    m_stopScanBtn->setEnabled(false);
+}
+
+void ScanIPWidget::addIPToTreeWidget(int num, ipinfo_t ipinfo)
 {
     m_scanProgressBar->setValue(num);
     if (ipinfo.ip == QString::null)

@@ -31,7 +31,7 @@ public:
         qRegisterMetaType<ipinfo_t>("ipinfo_t");
         m_ipStr = ip;
         m_maskStr = mask;
-        ifRun = true;
+        m_bStop = false;
     }
     ~GetOnlineIP()
     {
@@ -57,21 +57,22 @@ public:
         m_allIPList.clear();
         if (!checkAddress())
             return -1;
-
-        sscanf(m_ipStr.toStdString().c_str(), "%d.%d.%d.%d", m_ip, m_ip + 1, m_ip + 2, m_ip + 3);
-        sscanf(m_maskStr.toStdString().c_str(), "%d.%d.%d.%d", m_mask, m_mask + 1, m_mask + 2, m_mask + 3);
+        int ip[4] = { 0, 0, 0, 0 };
+        int mask[4] = { 0, 0, 0, 0 };
+        sscanf(m_ipStr.toStdString().c_str(), "%d.%d.%d.%d", ip, ip + 1, ip + 2, ip + 3);
+        sscanf(m_maskStr.toStdString().c_str(), "%d.%d.%d.%d", mask, mask + 1, mask + 2, mask + 3);
         int flag0 = 0, flag1 = 0, flag2 = 0, flag3 = 0;
         int base0 = 0, base1 = 0, base2 = 0, base3 = 0;
 
-        base0 = m_ip[0] & m_mask[0];
-        base1 = m_ip[1] & m_mask[1];
-        base2 = m_ip[2] & m_mask[2];
-        base3 = m_ip[3] & m_mask[3];
+        base0 = ip[0] & mask[0];
+        base1 = ip[1] & mask[1];
+        base2 = ip[2] & mask[2];
+        base3 = ip[3] & mask[3];
 
-        flag0 = m_mask[0] ^ 0XFF;
-        flag1 = m_mask[1] ^ 0XFF;
-        flag2 = m_mask[2] ^ 0XFF;
-        flag3 = m_mask[3] ^ 0XFF;
+        flag0 = mask[0] ^ 0XFF;
+        flag1 = mask[1] ^ 0XFF;
+        flag2 = mask[2] ^ 0XFF;
+        flag3 = mask[3] ^ 0XFF;
 
         int i0, i1, i2, i3;
         int ip0 = 0, ip1 = 0, ip2 = 0, ip3 = 0;
@@ -100,10 +101,19 @@ public:
 
     void run()
     {
-        if (getAllIP() <= 0)
-            return;
-        for (int i = 0; i < m_allIPList.size() && ifRun; i++)
+        int count = -1;
+        if (checkAddress())
+            count = getAllIP();
+        emit getAllTPCount(count);
+
+        for (int i = 0; i < count && !m_bStop; i++)
         {
+            if (m_bPause)
+            {
+                msleep(10);
+                i--;
+                continue;
+            }
             ipinfo_t ipinfo;
             ipinfo.ip = QString::null;
             if (pingIP(m_allIPList.at(i)))
@@ -112,27 +122,42 @@ public:
             }
             emit getNewIP(i, ipinfo);
         }
-        ifRun = true;
+        emit finishedScan();
     }
-
+    
+    void start()
+    {
+        m_bStop = false;
+        m_bPause = false;
+        QThread::start();
+    }
+    void pause()
+    {
+        m_bPause = true;
+    }
+    void goon()
+    {
+        m_bPause = false;
+    }
     void stop()
     {
-        ifRun = false;
+        m_bStop = true;
         quit();
         wait();
     }
 
 signals:
+    void getAllTPCount(int count);
     void getNewIP(int num, ipinfo_t ipinfo);
+    void finishedScan();
 
 protected:
 
 private:
-    bool ifRun;
+    bool m_bStop;
+    bool m_bPause;
     QString m_ipStr;
     QString m_maskStr;
-    int m_ip[4];
-    int m_mask[4];
     QStringList m_allIPList;
     QList<ipinfo_t> m_onlineIPList;
 
@@ -174,13 +199,15 @@ protected:
     //protected slots :
     void getInterfaceList();
     void changeAdapter();
-    void scanIP();
-    void addIP(int num, ipinfo_t ipinfo);
+    void addIPToTreeWidget(int num, ipinfo_t ipinfo);
+    void scanCtrl();
+    void scanAllIPCount(int count);
+    void scanFinished();
 
 private:
     QGridLayout *m_mainLayout;
     QComboBox *m_InterfaceCombobox;
-    QPushButton *m_scanBtn;
+    QPushButton *m_scanInterfaceBtn;
     QTreeWidget *m_addressTreeWidget;
     QTreeWidget *m_scanResultTreeWidget;
     QProgressBar *m_scanProgressBar;
