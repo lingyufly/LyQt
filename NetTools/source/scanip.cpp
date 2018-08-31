@@ -23,7 +23,7 @@ ScanIPWidget::~ScanIPWidget()
 
 void ScanIPWidget::setupUi()
 {
-    m_scanIP = new GetOnlineIP();
+    m_scanIP = new GetOnlineIP(this);
     connect(m_scanIP, &GetOnlineIP::getNewIP, this, &ScanIPWidget::addIPToTreeWidget);
     connect(m_scanIP, &GetOnlineIP::getAllTPCount, this, &ScanIPWidget::scanAllIPCount);
     connect(m_scanIP, &GetOnlineIP::finishedScan, this, &ScanIPWidget::scanFinished);

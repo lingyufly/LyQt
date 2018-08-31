@@ -14,6 +14,7 @@
 #include <QDebug>
 #include <QProgressBar>
 #include <QMetaType>
+#include <QMutex>
 
 typedef struct
 {
@@ -26,11 +27,10 @@ class GetOnlineIP :public QThread
 {
     Q_OBJECT
 public:
-    GetOnlineIP(QString ip = QString::null, QString mask = QString::null)
+    GetOnlineIP(QObject *parent = NULL)
+        :QThread(parent)
     {
         qRegisterMetaType<ipinfo_t>("ipinfo_t");
-        m_ipStr = ip;
-        m_maskStr = mask;
         m_bStop = false;
     }
     ~GetOnlineIP()
