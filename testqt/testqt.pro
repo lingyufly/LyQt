@@ -34,7 +34,7 @@ DISTFILES += \
     ini/settings.ini 
     
 RC_ICONS += \
-	resource/sevent.ico
+	resource/testqt.ico
 
 RESOURCES += \
 	resource/testqt.qrc \

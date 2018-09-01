@@ -2,8 +2,8 @@
     <qresource prefix="/image">
         <file>green.png</file>
         <file>red.png</file>
-        <file>sevent.ico</file>
         <file>sys_set.png</file>
         <file>yellow.png</file>
+        <file>testqt.ico</file>
     </qresource>
 </RCC>
