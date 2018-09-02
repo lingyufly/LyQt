@@ -13,6 +13,7 @@
 #include <QTimerEvent>
 #include <QPaintEvent>
 #include <QPixmap>
+#include <cmath>
 
 LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
