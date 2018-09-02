@@ -12,4 +12,7 @@ SOURCES += \
 
 HEADERS += \
 	include/LyRadar.h 
+	
+RESOURCES += \
+	resource/LyRadar.qrc
 		

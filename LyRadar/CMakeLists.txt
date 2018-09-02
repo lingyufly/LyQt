@@ -1,12 +1,21 @@
-cmake_minimum_required(VERSION 2.8.11 FATAL_ERROR)
-project(helloworld)
+cmake_minimum_required(VERSION 3.1.0)
+
+project(LyRadar)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTORCC ON)
-find_package(Qt5 REQUIRED Widgets)
-qt5_wrap_cpp( MOC include/LyRadar.h)
+
+find_package(Qt5Widgets CONFIG REQUIRED)
+
 include_directories(include)
-add_executable(helloworld source/main.cpp source/LyRadar.cpp include/LyRadar.h)
-target_link_libraries(helloworld Qt5::Widgets)
+qt5_add_resources(QRC_FILES resource/LyRadar.qrc)
+set(SRCS
+	include/LyRadar.h  
+	source/main.cpp
+	source/LyRadar.cpp 
+	${QRC_FILES})
+
+add_executable(LyRadar WIN32 ${SRCS})
+target_link_libraries(LyRadar Qt5::Widgets)
+

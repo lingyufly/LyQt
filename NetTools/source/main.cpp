@@ -1,6 +1,6 @@
-#include <QtWidgets/QApplication>
-#include <QtWidgets/QMainWindow>
-#include <QtNetwork/QNetworkInterface>
+#include <QApplication>
+#include <QMainWindow>
+#include <QNetworkInterface>
 #include <QDialog>
 #include <QtCore/QList>
 #include <iostream>

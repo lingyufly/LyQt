@@ -2,8 +2,8 @@
 #define _LYRADAR_H_
 
 
-#include <QtWidgets/QWidget>
-#include <QtCore/QVector>
+#include <QWidget>
+#include <QVector>
 
 class QTimerEvent;
 class QPoint;

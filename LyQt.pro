@@ -1,3 +1,4 @@
 TEMPLATE= subdirs
 SUBDIRS+=LyRadar \
-        testqt
+        TestQt \
+		NetTools

@@ -46,3 +46,5 @@ GeneratedFiles
 *.vcxproj.*
 .qmake.stash
 *.rc
+.vs
+CMakeBuilds

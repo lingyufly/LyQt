@@ -1,4 +1,4 @@
-TARGET = testqt
+TARGET = TestQt
 TEMPLATE = app
 QT += core gui widgets
 CONFIG += console
@@ -37,5 +37,4 @@ RC_ICONS += \
 	resource/testqt.ico
 
 RESOURCES += \
-	resource/testqt.qrc \
-	testqt.pro
+	resource/testqt.qrc

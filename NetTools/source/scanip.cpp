@@ -1,6 +1,6 @@
 #include "scanip.h"
 #include <QNetworkInterface>
-#include <QtCore/QList>
+#include <QList>
 #include <QLayout>
 #include <QGridLayout>
 #include <QLabel>
