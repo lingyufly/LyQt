@@ -71,7 +71,7 @@ void ScanIPWidget::getInterfaceList()
 {
     QList<QNetworkInterface> items = QNetworkInterface::allInterfaces();
     m_interfaceList.clear();
-    for each(QNetworkInterface item in items)
+    for (QNetworkInterface item : items)
     {
         if (item.flags().testFlag(QNetworkInterface::IsUp)
             && item.flags().testFlag(QNetworkInterface::IsRunning)
@@ -84,7 +84,7 @@ void ScanIPWidget::getInterfaceList()
     }
 
     m_InterfaceCombobox->clear();
-    for each(QNetworkInterface item in m_interfaceList)
+    for (QNetworkInterface item : m_interfaceList)
     {
         m_InterfaceCombobox->addItem(item.name());
     }
@@ -104,7 +104,7 @@ void ScanIPWidget::changeAdapter()
     qDebug() << "Adapter Address:" << interface.hardwareAddress();
 
     QList<QNetworkAddressEntry> addressEntryList = interface.addressEntries();
-    for each(QNetworkAddressEntry addressEntryItem in addressEntryList)
+    for (QNetworkAddressEntry addressEntryItem : addressEntryList)
     {
         if (addressEntryItem.ip().protocol() == QAbstractSocket::IPv4Protocol)
         {

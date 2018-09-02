@@ -166,7 +166,7 @@ void LyRadar::addPoint(double angle, double distance)
 
 void LyRadar::drawPoints(QPainter & painter)
 {
-    for each (Point point in m_points)
+    for (Point point : m_points)
     {
         if (point.getDistance() > m_maxDistance)
             continue;
