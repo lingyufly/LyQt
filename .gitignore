@@ -36,7 +36,6 @@ Release
 debug
 release
 x64
-.vs    
 GeneratedFiles
 *.sdf
 *.opensdf
@@ -48,3 +47,4 @@ GeneratedFiles
 *.rc
 .vs
 CMakeBuilds
+build
