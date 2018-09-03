@@ -6,7 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
-find_package(Qt5Widgets CONFIG REQUIRED)
+find_package(Qt5Widgets REQUIRED)
 
 include_directories(include)
 qt5_add_resources(QRC_FILES resource/LyRadar.qrc)
