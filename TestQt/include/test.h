@@ -15,6 +15,7 @@ protected:
 
 protected slots :
     void slot_test();
+    void slot_callfunc();
 
 private:
     void setupUi();

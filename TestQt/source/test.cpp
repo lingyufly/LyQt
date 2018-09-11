@@ -1,4 +1,5 @@
 #include "test.h"
+#include "func.h"
 
 #include <QDateTimeEdit>
 #include <QBoxLayout>
@@ -13,6 +14,7 @@
 #include <QDebug>
 #include <QComboBox>
 #include <QLineEdit>
+#include <QMessageBox>
 
 
 TestWidget::TestWidget(QWidget *parent, Qt::WindowFlags fl)
@@ -71,6 +73,10 @@ void TestWidget::setupUi()
     connect(m_combobox->lineEdit(), &QLineEdit::returnPressed, this, &TestWidget::slot_test);
     main_layout->addWidget(m_combobox);
 
+    QPushButton *m_callFuncBtn=new QPushButton("CallFunc", this);
+    connect(m_callFuncBtn, &QPushButton::clicked, this, &TestWidget::slot_callfunc);
+    main_layout->addWidget(m_callFuncBtn);
+
     spacer = new QSpacerItem(10, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     main_layout->addSpacerItem(spacer);
 }
@@ -78,4 +84,9 @@ void TestWidget::setupUi()
 void TestWidget::slot_test()
 {
     qDebug() << "slot_test";
+}
+
+void TestWidget::slot_callfunc()
+{
+    QMessageBox::information(this, "INFO", QString("func_add return %1").arg(func_add(1,2)));
 }

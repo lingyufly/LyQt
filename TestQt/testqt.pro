@@ -3,6 +3,10 @@ TEMPLATE = app
 QT += core gui widgets
 CONFIG += console
 
+LIBS+=-L$$PWD/libs -lfunc
+
+INCLUDEPATH += libs
+
 INCLUDEPATH += \
 	include
 
@@ -38,3 +42,8 @@ RC_ICONS += \
 
 RESOURCES += \
 	resource/testqt.qrc
+
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    ANDROID_EXTRA_LIBS = \
+        $$PWD/libs/libfunc.so
+}
