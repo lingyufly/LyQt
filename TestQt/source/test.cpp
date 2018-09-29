@@ -1,5 +1,4 @@
 #include "test.h"
-#include "func.h"
 
 #include <QDateTimeEdit>
 #include <QBoxLayout>
@@ -88,5 +87,4 @@ void TestWidget::slot_test()
 
 void TestWidget::slot_callfunc()
 {
-    QMessageBox::information(this, "INFO", QString("func_add return %1").arg(func_add(1,2)));
 }
