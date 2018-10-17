@@ -1,4 +1,4 @@
-#include "wizard.h"
+#include "testwizard.h"
 #include <QPushButton>
 #include <QLabel>
 #include <QVBoxLayout>

@@ -1,4 +1,4 @@
-#include "userinfo.h"
+#include "userinfowgt.h"
 #include <QMap>
 #include <QDebug>
 #include <QList>

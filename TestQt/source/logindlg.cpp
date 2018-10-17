@@ -1,4 +1,4 @@
-#include "login.h"
+#include "logindlg.h"
 #include <QSettings>
 #include <QDebug>
 #include <QMessageBox>
