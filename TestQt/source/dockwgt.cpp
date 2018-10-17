@@ -1,4 +1,4 @@
-#include "testQStackedWidget.h"
+#include "dockwgt.h"
 
 #include <QPushButton>
 #include <QVBoxLayout>

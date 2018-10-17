@@ -1,4 +1,4 @@
-#include "mouse.h"
+#include "mousewgt.h"
 #include <QMouseEvent>
 #include <QDebug>
 #include <QCheckBox>

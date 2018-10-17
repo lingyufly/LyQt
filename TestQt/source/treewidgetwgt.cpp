@@ -1,4 +1,4 @@
-#include "testQTreeWidget.h"
+#include "treewidgetwgt.h"
 #include <QTreeWidget>
 #include <QTreeWidgetItem>
 #include <QGridLayout>

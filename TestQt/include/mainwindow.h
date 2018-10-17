@@ -4,14 +4,14 @@
 #include <QMainWindow>
 #include <QWidget>
 
-#include "login.h"
-#include "userinfo.h"
-#include "mouse.h"
-#include "test.h"
-#include "testQTreeWidget.h"
-#include "testQStackedWidget.h"
-#include "wizard.h"
-#include "fileio.h"
+#include "logindlg.h"
+#include "userinfowgt.h"
+#include "mousewgt.h"
+#include "testwgt.h"
+#include "treewidgetwgt.h"
+#include "dockwgt.h"
+#include "testwizard.h"
+#include "fileiowgt.h"
 
 class QToolBar;
 class QAction;
