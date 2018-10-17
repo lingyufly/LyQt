@@ -46,7 +46,7 @@ private:
     Mouse *m_mouseWidget;
     TestQTreeWidgetWidget *m_qtreewidgettWidget;
     TestWidget *m_testWidget;
-    TestQStackedWidget *m_qstackedwidgetWidget;
+    TestDockWidget *m_qstackedwidgetWidget;
     MyWizard *m_wizard;
     FileIOWidget *m_fileioWidget;
 

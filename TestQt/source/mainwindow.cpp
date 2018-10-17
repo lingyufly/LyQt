@@ -113,7 +113,7 @@ void MainWindow::setupUi()
     m_testWidget = new TestWidget();
     m_tabWidget->addTab(m_testWidget, QString("TestWidget"));
 
-    m_qstackedwidgetWidget = new TestQStackedWidget();
+    m_qstackedwidgetWidget = new TestDockWidget();
     m_tabWidget->addTab(m_qstackedwidgetWidget, QString("TestQStackedWidget"));
 
     m_fileioWidget = new FileIOWidget();
