@@ -9,13 +9,13 @@
 class QTableWidget;
 class QPushButton;
 
-class UserInfo : public QWidget
+class UserInfoWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit UserInfo(QWidget *parent = 0);
-    ~UserInfo();
+    explicit UserInfoWidget(QWidget *parent = 0);
+    ~UserInfoWidget();
     int loaddata();
 protected slots:
     void savedata();

@@ -30,7 +30,7 @@ MainWindow::~MainWindow()
 
 bool MainWindow::login()
 {
-    m_loginDlg = new Login(NULL);
+    m_loginDlg = new LoginDialog(NULL);
     if (m_loginDlg->exec() == QDialog::Accepted)
     {
         delete m_loginDlg;
@@ -85,9 +85,9 @@ void MainWindow::setupUi()
 
     m_toolbar = new QToolBar(this);
     addToolBar(m_toolbar);
+    m_toolbar->addAction(m_fileMenu->menuAction());
     m_toolbar->addAction(m_action1);
     m_toolbar->addAction(m_action2);
-    m_toolbar->addAction(m_fileMenu->menuAction());
     m_toolbar->addAction(m_modalAction1);
     m_toolbar->addAction(m_modalAction2);
     m_toolbar->addAction(m_modalessAction);
@@ -101,10 +101,10 @@ void MainWindow::setupUi()
     m_tabWidget = new QTabWidget(m_centerWidget);
     mainLayout->addWidget(m_tabWidget);
 
-    m_userinfoWidget = new UserInfo();
+    m_userinfoWidget = new UserInfoWidget();
     m_tabWidget->addTab(m_userinfoWidget, QString("UserInfo"));
 
-    m_mouseWidget = new Mouse();
+    m_mouseWidget = new MouseWidget();
     m_tabWidget->addTab(m_mouseWidget, QString("Mouse"));
 
     m_qtreewidgettWidget = new TestQTreeWidgetWidget();
@@ -113,8 +113,8 @@ void MainWindow::setupUi()
     m_testWidget = new TestWidget();
     m_tabWidget->addTab(m_testWidget, QString("TestWidget"));
 
-    m_qstackedwidgetWidget = new TestDockWidget();
-    m_tabWidget->addTab(m_qstackedwidgetWidget, QString("TestQStackedWidget"));
+    m_dockWidget = new TestDockWidget();
+    m_tabWidget->addTab(m_dockWidget, QString("TestDockWidget"));
 
     m_fileioWidget = new FileIOWidget();
     m_tabWidget->addTab(m_fileioWidget, QString("TestFileIoWidget"));
@@ -165,49 +165,14 @@ void MainWindow::slot_testDialog()
 
 void MainWindow::slot_testWizard()
 {
-    m_wizard = new MyWizard(this);
+    m_wizard = new TestWizard(this);
     m_wizard->show();
 }
-
-
-class MFileDialog : public QFileDialog
-{
-public:
-    MFileDialog(QWidget *parent = Q_NULLPTR, const QString &caption = QString(), const QString &directory = QString(), const QString &filter = QString())
-        :QFileDialog(parent, caption, directory, filter)
-    {
-
-        //init();
-    }
-    MFileDialog(QWidget *parent, Qt::WindowFlags flags)
-        : QFileDialog(parent, flags)
-    {
-
-        //init();
-    }
-    void init()
-    {
-        QPushButton *test = new QPushButton(this);
-        test->setText("TTTTTTT");
-        //QLayout *ll = QFileDialog::layout();
-        //layout()->addWidget(test);
-        QObjectList widgets =  children();
-        for (int i = 0; i < widgets.length(); i++)
-        {
-            QObject *btn = widgets.at(i);
-            qDebug() << btn->objectName();
-        }
-    }
-protected:
-private:
-};
-
-
 
 void MainWindow::slot_testFileDialog()
 {
     QString start = getenv("RUNHOME");
-    MFileDialog *m_fileDialog = new MFileDialog(this, "AAAAAAAAAAA", start);
+    QFileDialog *m_fileDialog = new QFileDialog(this, "Test QFileDialog", start);
     m_fileDialog->setFileMode(QFileDialog::Directory);
     
     m_fileDialog->selectFile(start);
@@ -217,5 +182,4 @@ void MainWindow::slot_testFileDialog()
         for (QStringList::iterator it = files.begin(); it != files.end(); it++)
             qDebug() << *it;
     }
-    m_fileDialog->init();
 }

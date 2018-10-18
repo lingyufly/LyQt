@@ -4,11 +4,11 @@
 #include <QWizard>
 #include <QWizardPage>
 
-class MyWizard : public QWizard
+class TestWizard : public QWizard
 {
 public:
-    MyWizard(QWidget *parent = NULL, Qt::WindowFlags flags = Qt::WindowFlags());
-    ~MyWizard();
+    TestWizard(QWidget *parent = NULL, Qt::WindowFlags flags = Qt::WindowFlags());
+    ~TestWizard();
 
 private:
     void setupUi();

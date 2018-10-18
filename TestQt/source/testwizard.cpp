@@ -5,7 +5,7 @@
 #include <QHBoxLayout>
 
 
-MyWizard::MyWizard(QWidget *parent, Qt::WindowFlags fl)
+TestWizard::TestWizard(QWidget *parent, Qt::WindowFlags fl)
     :QWizard(parent, fl)
 {
     m_firstPage = NULL;
@@ -15,13 +15,13 @@ MyWizard::MyWizard(QWidget *parent, Qt::WindowFlags fl)
 }
 
 
-MyWizard::~MyWizard()
+TestWizard::~TestWizard()
 {
 
 }
 
 
-void MyWizard::setupUi()
+void TestWizard::setupUi()
 {
     QHBoxLayout *hbox = NULL;
     QVBoxLayout *vbox = NULL;
@@ -50,7 +50,7 @@ void MyWizard::setupUi()
     addPage(m_thirdPage);
 }
 
-void MyWizard::init()
+void TestWizard::init()
 {
 
 }

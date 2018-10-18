@@ -41,13 +41,13 @@ private:
     QMenu *m_fileMenu;
     QWidget *m_centerWidget;
     QTabWidget *m_tabWidget;
-    Login *m_loginDlg;
-    UserInfo *m_userinfoWidget;
-    Mouse *m_mouseWidget;
+    LoginDialog *m_loginDlg;
+    UserInfoWidget *m_userinfoWidget;
+    MouseWidget *m_mouseWidget;
     TestQTreeWidgetWidget *m_qtreewidgettWidget;
     TestWidget *m_testWidget;
-    TestDockWidget *m_qstackedwidgetWidget;
-    MyWizard *m_wizard;
+    TestDockWidget *m_dockWidget;
+    TestWizard *m_wizard;
     FileIOWidget *m_fileioWidget;
 
 protected slots:

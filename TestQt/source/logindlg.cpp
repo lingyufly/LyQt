@@ -9,7 +9,7 @@
 #include <QString>
 #include <QHBoxLayout>
 
-Login::Login(QWidget *parent) :
+LoginDialog::LoginDialog(QWidget *parent) :
     QDialog(parent)
 {
     setupUi();
@@ -22,12 +22,12 @@ Login::Login(QWidget *parent) :
     }
 }
 
-Login::~Login()
+LoginDialog::~LoginDialog()
 {
     delete m_users;
 }
 
-void Login::setupUi()
+void LoginDialog::setupUi()
 {
     QVBoxLayout *mainlayout = new QVBoxLayout(this);
     QHBoxLayout *hbox = new QHBoxLayout();
@@ -56,7 +56,7 @@ void Login::setupUi()
     connect(m_exitBtn, SIGNAL(clicked()), this, SLOT(reject()));
 }
 
-void Login::checkuserandpass()
+void LoginDialog::checkuserandpass()
 {
     QString user=m_userLineEdit->text();
     QString pass=m_passLineEdit->text();
@@ -78,7 +78,7 @@ void Login::checkuserandpass()
     }
 }
 
-int Login::loadusers()
+int LoginDialog::loadusers()
 {
     QSettings *settings=new QSettings("ini/settings.ini", QSettings::IniFormat);
 
