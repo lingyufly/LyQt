@@ -4,14 +4,14 @@
 #include <QMainWindow>
 #include <QWidget>
 
-#include "login.h"
-#include "userinfo.h"
-#include "mouse.h"
-#include "test.h"
-#include "testQTreeWidget.h"
-#include "testQStackedWidget.h"
-#include "wizard.h"
-#include "fileio.h"
+#include "logindlg.h"
+#include "userinfowgt.h"
+#include "mousewgt.h"
+#include "testwgt.h"
+#include "treewidgetwgt.h"
+#include "dockwgt.h"
+#include "testwizard.h"
+#include "fileiowgt.h"
 
 class QToolBar;
 class QAction;
@@ -41,13 +41,13 @@ private:
     QMenu *m_fileMenu;
     QWidget *m_centerWidget;
     QTabWidget *m_tabWidget;
-    Login *m_loginDlg;
-    UserInfo *m_userinfoWidget;
-    Mouse *m_mouseWidget;
+    LoginDialog *m_loginDlg;
+    UserInfoWidget *m_userinfoWidget;
+    MouseWidget *m_mouseWidget;
     TestQTreeWidgetWidget *m_qtreewidgettWidget;
     TestWidget *m_testWidget;
-    TestQStackedWidget *m_qstackedwidgetWidget;
-    MyWizard *m_wizard;
+    TestDockWidget *m_dockWidget;
+    TestWizard *m_wizard;
     FileIOWidget *m_fileioWidget;
 
 protected slots:

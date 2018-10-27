@@ -11,25 +11,25 @@ find_package(Qt5Widgets REQUIRED)
 include_directories(include)
 qt5_add_resources(QRC_FILES resource/testqt.qrc)
 set(SRCS
-	include/login.h  
+	include/logindlg.h  
 	include/mainwindow.h 
-	include/mouse.h 
-	include/test.h 
-	include/testQStackedWidget.h 
-	include/testQTreeWidget.h 
-	include/userinfo.h
-	include/fileio.h 
-	include/wizard.h
+	include/mousewgt.h 
+	include/testwgt.h 
+	include/dockwgt.h 
+	include/treewidgetwgt.h 
+	include/userinfowgt.h
+	include/fileiowgt.h 
+	include/testwizard.h
 	source/main.cpp
-	source/login.cpp 
+	source/logindlg.cpp 
 	source/mainwindow.cpp
-	source/mouse.cpp 
-	source/test.cpp 
-	source/testQStackedWidget.cpp
-	source/testQTreeWidget.cpp 
-	source/userinfo.cpp 
-	source/fileio.cpp 
-	source/wizard.cpp 
+	source/mousewgt.cpp 
+	source/testwgt.cpp 
+	source/dockwgt.cpp
+	source/treewidgetwgt.cpp 
+	source/userinfowgt.cpp 
+	source/fileiowgt.cpp 
+	source/testwizard.cpp 
 	${QRC_FILES})
 
 

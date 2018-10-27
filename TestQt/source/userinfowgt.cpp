@@ -1,4 +1,4 @@
-#include "userinfo.h"
+#include "userinfowgt.h"
 #include <QMap>
 #include <QDebug>
 #include <QList>
@@ -11,7 +11,7 @@
 #include <QSpacerItem>
 #include <QLabel>
 
-UserInfo::UserInfo(QWidget *parent) : QWidget(parent)
+UserInfoWidget::UserInfoWidget(QWidget *parent) : QWidget(parent)
 {
     setupUi();
 
@@ -33,11 +33,11 @@ UserInfo::UserInfo(QWidget *parent) : QWidget(parent)
     }
 }
 
-UserInfo::~UserInfo()
+UserInfoWidget::~UserInfoWidget()
 {
 }
 
-void UserInfo::setupUi()
+void UserInfoWidget::setupUi()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout();
     setLayout(mainLayout);
@@ -73,10 +73,10 @@ void UserInfo::setupUi()
     connect(m_addBtn, SIGNAL(clicked(bool)), this, SLOT(additem()));
     connect(m_saveBtn, SIGNAL(clicked(bool)), this, SLOT(savedata()));
     connect(m_delBtn, SIGNAL(clicked(bool)), this, SLOT(deleteitem()));
-    connect(m_infoTable, &QTableWidget::currentItemChanged, this, &UserInfo::slot_itemChanged);
+    connect(m_infoTable, &QTableWidget::currentItemChanged, this, &UserInfoWidget::slot_itemChanged);
 }
 
-int UserInfo::loaddata()
+int UserInfoWidget::loaddata()
 {
     m_users->empty();
     QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
@@ -92,7 +92,7 @@ int UserInfo::loaddata()
     return m_users->size();
 }
 
-void UserInfo::savedata()
+void UserInfoWidget::savedata()
 {
     m_users->empty();
     QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
@@ -112,7 +112,7 @@ void UserInfo::savedata()
     delete settings;
 }
 
-int UserInfo::deleteitem()
+int UserInfoWidget::deleteitem()
 {
     if (m_itemSize <= 0 || m_infoTable->currentRow() < 0)
         return 0;
@@ -124,7 +124,7 @@ int UserInfo::deleteitem()
     return 1;
 }
 
-int UserInfo::additem()
+int UserInfoWidget::additem()
 {
     m_itemSize += 1;
     m_infoTable->setRowCount(m_itemSize);
@@ -135,7 +135,7 @@ int UserInfo::additem()
 }
 
 
-void UserInfo::slot_itemChanged()
+void UserInfoWidget::slot_itemChanged()
 {
     qDebug() << "slot_itemChanged";
 }

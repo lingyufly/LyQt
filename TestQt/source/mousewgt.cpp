@@ -1,4 +1,4 @@
-#include "mouse.h"
+#include "mousewgt.h"
 #include <QMouseEvent>
 #include <QDebug>
 #include <QCheckBox>
@@ -10,7 +10,7 @@
 #include <QCheckBox>
 #include <QPalette>
 
-Mouse::Mouse(QWidget *parent) :
+MouseWidget::MouseWidget(QWidget *parent) :
 QWidget(parent)
 {
     setupUi();
@@ -18,11 +18,11 @@ QWidget(parent)
     pt = QTime::currentTime();
 }
 
-Mouse::~Mouse()
+MouseWidget::~MouseWidget()
 {
 }
 
-void Mouse::setupUi()
+void MouseWidget::setupUi()
 {
     QVBoxLayout *mainLayout = new QVBoxLayout(this);
 
@@ -50,7 +50,7 @@ void Mouse::setupUi()
     connect(m_mouseTrackCbox, SIGNAL(toggled(bool)), this, SLOT(changeMouseTrckState(bool)));
 }
 
-void Mouse::mousePressEvent(QMouseEvent *e)
+void MouseWidget::mousePressEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
         m_textBrowser->append("Mouse left button press");
@@ -58,7 +58,7 @@ void Mouse::mousePressEvent(QMouseEvent *e)
         m_textBrowser->append("Mouse right button press");
 }
 
-void Mouse::mouseMoveEvent(QMouseEvent *e)
+void MouseWidget::mouseMoveEvent(QMouseEvent *e)
 {
     // 防止抖动
     ct = QTime::currentTime();
@@ -70,7 +70,7 @@ void Mouse::mouseMoveEvent(QMouseEvent *e)
     m_textBrowser->append("Mouse move");
 }
 
-void Mouse::mouseReleaseEvent(QMouseEvent *e)
+void MouseWidget::mouseReleaseEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
         m_textBrowser->append("Mouse left button release");
@@ -78,7 +78,7 @@ void Mouse::mouseReleaseEvent(QMouseEvent *e)
         m_textBrowser->append("Mouse right button release");
 }
 
-void Mouse::mouseDoubleClickEvent(QMouseEvent *e)
+void MouseWidget::mouseDoubleClickEvent(QMouseEvent *e)
 {
     if (e->button() == Qt::LeftButton)
         m_textBrowser->append("Mouse double click");
@@ -86,7 +86,7 @@ void Mouse::mouseDoubleClickEvent(QMouseEvent *e)
         m_textBrowser->append("Mouse double click");
 }
 
-void Mouse::changeMouseTrckState(bool stat)
+void MouseWidget::changeMouseTrckState(bool stat)
 {
     setMouseTracking(stat);
 }

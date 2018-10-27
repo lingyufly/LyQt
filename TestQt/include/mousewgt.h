@@ -7,13 +7,13 @@ class QLabel;
 class QTextBrowser;
 class QCheckBox;
 
-class Mouse : public QWidget
+class MouseWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit Mouse(QWidget *parent = 0);
-    ~Mouse();
+    explicit MouseWidget(QWidget *parent = 0);
+    ~MouseWidget();
     void setupUi();
 protected:
     void mousePressEvent(QMouseEvent *e);       //--鼠标按下事件

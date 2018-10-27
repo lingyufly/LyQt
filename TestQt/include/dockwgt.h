@@ -4,12 +4,12 @@
 #include <QDockWidget>
 #include <QMainWindow>
 
-class TestQStackedWidget :public QMainWindow
+class TestDockWidget :public QMainWindow
 {
     Q_OBJECT
 public:
-    TestQStackedWidget(QWidget *parent = NULL, Qt::WindowFlags fl = Qt::WindowFlags());
-    ~TestQStackedWidget();
+    TestDockWidget(QWidget *parent = NULL, Qt::WindowFlags fl = Qt::WindowFlags());
+    ~TestDockWidget();
 protected:
 private:
     QDockWidget *m_dockWidget;
