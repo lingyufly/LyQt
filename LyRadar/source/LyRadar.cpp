@@ -25,6 +25,7 @@ LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
     m_pix = new QPixmap(size());
     m_maxDistance = 100;
     startTimer(1);
+    tr("aaa");
 }
 
 
@@ -37,7 +38,7 @@ LyRadar::~LyRadar()
 static double m_rotate = 0.0;
 void LyRadar::timerEvent(QTimerEvent *event)
 {
-    qDebug() << "timerEvent, id=" << event->timerId();
+    qDebug() << tr("timerEvent, id=") << event->timerId();
     
     if (m_dir)
         m_rotate += 0.1;

@@ -11,17 +11,17 @@ find_package(Qt5LinguistTools)
 
 include_directories(include)
 qt5_add_resources(QRC_FILES resource/LyRadar.qrc)
-#${QRC_FILES}
 set(SRCS
-	${CMAKE_CURRENT_SOURCE_DIR}/include/LyRadar.h  
-	${CMAKE_CURRENT_SOURCE_DIR}/source/main.cpp
-	${CMAKE_CURRENT_SOURCE_DIR}/source/LyRadar.cpp 
+	include/LyRadar.h  
+	source/main.cpp
+	source/LyRadar.cpp 
 	)
 	
-set(TS_FILES ${CMAKE_CURRENT_SOURCE_DIR}/muckturnier_de.ts)
-qt5_create_translation(QM_FILES ${SRCS} ${TS_FILES} OPTIONS -pluralonly -locations none)
-add_custom_target(Localization ALL DEPENDS ${QM_FILES})
+set(TS_FILES translation/LyRadar_de.ts translation/LyRadar_zh.ts)
+qt5_create_translation(QM_FILES ${SRCS} ${TS_FILES})
+add_custom_target(lupdate ALL DEPENDS ${TS_FILES})
+add_custom_target(lrelease ALL DEPENDS ${QM_FILES})
 
-add_executable(LyRadar WIN32 ${SRCS})
+add_executable(LyRadar WIN32 ${SRCS} ${QRC_FILES})
 target_link_libraries(LyRadar Qt5::Widgets)
 
