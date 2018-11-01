@@ -8,7 +8,6 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5Network REQUIRED)
-set(LIBS ${LIBS} ${Qt5Network_LIBRARIES} ${Qt5Widgets_LIBRARIES})
 
 include_directories(include)
 qt5_add_resources(QRC_FILES resource/nettools.qrc)
@@ -17,6 +16,8 @@ set(SRCS
 	source/main.cpp
 	source/scanip.cpp 
 	${QRC_FILES})
+	
+set(LIBS ${LIBS} Qt5::Widgets Qt5::Network)
 
 add_executable(NetTools WIN32 ${SRCS})
 target_link_libraries(NetTools ${LIBS})

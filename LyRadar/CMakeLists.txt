@@ -7,21 +7,18 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5LinguistTools)
 
 include_directories(include)
-qt5_add_resources(QRC_FILES resource/LyRadar.qrc)
+qt5_add_resources(QRC_FILES resource/lyradar.qrc)
+
 set(SRCS
 	include/LyRadar.h  
 	source/main.cpp
 	source/LyRadar.cpp 
-	)
+	${QRC_FILES})
 	
-set(TS_FILES translation/LyRadar_de.ts translation/LyRadar_zh.ts)
-qt5_create_translation(QM_FILES ${SRCS} ${TS_FILES})
-add_custom_target(lupdate ALL DEPENDS ${TS_FILES})
-add_custom_target(lrelease ALL DEPENDS ${QM_FILES})
+set(LIBS ${LIBS} Qt5::Widgets)
 
-add_executable(LyRadar WIN32 ${SRCS} ${QRC_FILES})
-target_link_libraries(LyRadar Qt5::Widgets)
+add_executable(LyRadar WIN32 ${SRCS})
+target_link_libraries(LyRadar ${LIBS})
 

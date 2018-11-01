@@ -32,7 +32,8 @@ set(SRCS
 	source/testwizard.cpp 
 	${QRC_FILES})
 
+set(LIBS ${LIBS} Qt5::Widgets)
 
 add_executable(TestQt WIN32 ${SRCS})
-target_link_libraries(TestQt Qt5::Widgets)
+target_link_libraries(TestQt ${LIBS})
 
