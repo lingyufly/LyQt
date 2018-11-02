@@ -6,10 +6,10 @@
 #include <QVideoWidget>
 #include <QMediaPlayer>
 #include <QMediaContent>
-#include <QMediaPlayList>
+#include <QMediaPlaylist>
 #include <QFile>
 #include <QDebug>
-/*
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -19,29 +19,4 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-*/
 
-
-int main(int argc, char **argv)
-{
-    QApplication a(argc, argv);
-
-    QWidget *widget =new QWidget();
-    widget->resize(400,300);
-    QGridLayout *layout=new QGridLayout();
-    QMediaPlayer *player =new QMediaPlayer();
-    QVideoWidget *vw=new QVideoWidget();
-
-    layout->addWidget(vw);
-    widget->setLayout(layout);
-
-    player->setVideoOutput(vw);
-    widget->show();
-
-    player->setMedia(QUrl::fromLocalFile("e:/code/Qt/QtDemo/build/movie.mp4"));
-    player->setVolume(50);
-    player->play();
-
-
-    return a.exec();
-}

@@ -44,12 +44,9 @@ void ControlWidget::setupUi()
     if (!file.open(QIODevice::ReadOnly))
         qDebug()<<"Could not open file";
 
-    m_player->setMedia(QUrl::fromLocalFile("movie.mp4"));
-    m_player->play();
+    connect(m_player, &QMediaPlayer::videoAvailableChanged, this, &ControlWidget::readyPlay);
+    m_player->setMedia(QUrl("http://www.w3school.com.cn/i/movie.mp4"));
 
-    //QMediaContent *ct=new QMediaContent(QUrl("http://www.w3school.com.cn/i/movie.mp4"));
-    //m_player->setMedia(*ct);
-    //m_player->play();
 }
 
 void ControlWidget::repaintCtl()
@@ -85,3 +82,14 @@ void ControlWidget::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
     repaintCtl();
 }
+
+
+void ControlWidget::readyPlay(bool ready)
+{
+    if (ready)
+    {
+        qDebug()<<"ready";
+        m_player->play();
+    }
+}
+

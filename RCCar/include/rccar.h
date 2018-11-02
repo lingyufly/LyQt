@@ -19,6 +19,8 @@ protected:
     void repaintCtl();
     virtual void paintEvent(QPaintEvent *event);
 
+protected slots:
+    void readyPlay(bool ready);
 private:
     QGridLayout *m_mainLayout;
     QVideoWidget *m_videoWgt;
