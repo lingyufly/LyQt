@@ -5,6 +5,7 @@
 class QPushButton;
 class QGridLayout;
 class QVideoWidget;
+class QMediaPlayer;
 
 class ControlWidget :public QWidget
 {
@@ -25,6 +26,7 @@ private:
     QPushButton *m_backBtn;
     QPushButton *m_leftBtn;
     QPushButton *m_rightBtn;
+    QMediaPlayer *m_player;
 };
 
 #endif

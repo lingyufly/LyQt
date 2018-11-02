@@ -2,6 +2,10 @@
 #include <QGridLayout>
 #include <QPushButton>
 #include <QVideoWidget>
+#include <QMediaPlayer>
+#include <QMediaContent>
+#include <QFile>
+#include <QDebug>
 
 ControlWidget::ControlWidget(QWidget *parent /*= NULL*/, Qt::WindowFlags fl/*= Qt::windowFlags()*/)
 {
@@ -32,6 +36,20 @@ void ControlWidget::setupUi()
     m_foreBtn = new QPushButton(this);
     m_foreBtn->resize(lth, lth);
     m_foreBtn->show();
+
+    m_player=new QMediaPlayer(this);
+    m_player->setVideoOutput(m_videoWgt);
+
+    QFile file("movie.mp4");
+    if (!file.open(QIODevice::ReadOnly))
+        qDebug()<<"Could not open file";
+
+    m_player->setMedia(QUrl::fromLocalFile("movie.mp4"));
+    m_player->play();
+
+    //QMediaContent *ct=new QMediaContent(QUrl("http://www.w3school.com.cn/i/movie.mp4"));
+    //m_player->setMedia(*ct);
+    //m_player->play();
 }
 
 void ControlWidget::repaintCtl()
