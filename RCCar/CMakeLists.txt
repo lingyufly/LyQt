@@ -21,6 +21,6 @@ set(SRCS
 	
 set(LIBS ${LIBS} Qt5::Widgets Qt5::Network)
 
-add_executable(RCCar WIN32 ${SRCS})
+add_executable(RCCar ${SRCS})
 target_link_libraries(RCCar ${LIBS})
 
