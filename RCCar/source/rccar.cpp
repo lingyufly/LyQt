@@ -1,11 +1,12 @@
 #include "rccar.h"
 #include <QGridLayout>
 #include <QPushButton>
-#include <QVideoWidget>
-#include <QMediaPlayer>
-#include <QMediaContent>
+#include <QNetworkAccessManager>
 #include <QFile>
 #include <QDebug>
+#include <QLabel>
+#include <QUrl>
+#include <QNetworkReply>
 
 ControlWidget::ControlWidget(QWidget *parent /*= NULL*/, Qt::WindowFlags fl/*= Qt::windowFlags()*/)
 {
@@ -20,8 +21,8 @@ ControlWidget::~ControlWidget()
 void ControlWidget::setupUi()
 {
     m_mainLayout = new QGridLayout(this);
-    m_videoWgt = new QVideoWidget(this);
-    m_mainLayout->addWidget(m_videoWgt);
+    m_picLabel=new QLabel(this);
+    m_mainLayout->addWidget(m_picLabel);
 
     int lth = 30;
     m_leftBtn = new QPushButton(this);
@@ -37,16 +38,11 @@ void ControlWidget::setupUi()
     m_foreBtn->resize(lth, lth);
     m_foreBtn->show();
 
-    m_player=new QMediaPlayer(this);
-    m_player->setVideoOutput(m_videoWgt);
-
-    QFile file("movie.mp4");
-    if (!file.open(QIODevice::ReadOnly))
-        qDebug()<<"Could not open file";
-
-    connect(m_player, &QMediaPlayer::videoAvailableChanged, this, &ControlWidget::readyPlay);
-    m_player->setMedia(QUrl("http://www.w3school.com.cn/i/movie.mp4"));
-
+    m_picManager=new QNetworkAccessManager(this);
+    connect(m_picManager, &QNetworkAccessManager::finished, this, &ControlWidget::slot_showPic);
+    m_picUrl=QUrl("http://192.168.2.199:8080/?action=snapshot");
+    m_picRequest=QNetworkRequest(m_picUrl);
+    m_picManager->get(m_picRequest);
 }
 
 void ControlWidget::repaintCtl()
@@ -84,12 +80,15 @@ void ControlWidget::paintEvent(QPaintEvent *event)
 }
 
 
-void ControlWidget::readyPlay(bool ready)
+void ControlWidget::slot_showPic(QNetworkReply *reply)
 {
-    if (ready)
-    {
-        qDebug()<<"ready";
-        m_player->play();
-    }
+    QByteArray jpgdata=reply->readAll();
+    QPixmap pix;
+    pix.loadFromData(jpgdata);
+    pix=pix.scaled(m_picLabel->size());
+
+    m_picLabel->setPixmap(pix);
+
+    m_picManager->get(m_picRequest);
 }
 

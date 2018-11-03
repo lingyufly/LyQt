@@ -7,8 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 
 find_package(Qt5Widgets REQUIRED)
-find_package(Qt5Multimedia REQUIRED)
-find_package(Qt5MultimediaWidgets REQUIRED)
+find_package(Qt5Network REQUIRED)
 
 include_directories(include)
 qt5_add_resources(QRC_FILES resource/rccar.qrc)
@@ -20,7 +19,7 @@ set(SRCS
 	source/rccar.cpp 
 	${QRC_FILES})
 	
-set(LIBS ${LIBS} Qt5::Widgets Qt5::Multimedia Qt5::MultimediaWidgets)
+set(LIBS ${LIBS} Qt5::Widgets Qt5::Network)
 
 add_executable(RCCar WIN32 ${SRCS})
 target_link_libraries(RCCar ${LIBS})

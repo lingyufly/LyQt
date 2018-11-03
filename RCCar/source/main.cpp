@@ -1,15 +1,6 @@
 #include "rccar.h"
 #include <QtWidgets/QApplication>
 
-#include <QGridLayout>
-#include <QPushButton>
-#include <QVideoWidget>
-#include <QMediaPlayer>
-#include <QMediaContent>
-#include <QMediaPlaylist>
-#include <QFile>
-#include <QDebug>
-
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

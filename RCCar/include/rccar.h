@@ -2,10 +2,15 @@
 #define _RCCAR_H_
 
 #include <QWidget>
+#include <QUrl>
+#include <QNetworkRequest>
 class QPushButton;
 class QGridLayout;
 class QVideoWidget;
 class QMediaPlayer;
+class QLabel;
+class QNetworkReply;
+class QNetworkAccessManager;
 
 class ControlWidget :public QWidget
 {
@@ -20,15 +25,19 @@ protected:
     virtual void paintEvent(QPaintEvent *event);
 
 protected slots:
-    void readyPlay(bool ready);
+    void slot_showPic(QNetworkReply *reply);
 private:
     QGridLayout *m_mainLayout;
-    QVideoWidget *m_videoWgt;
+    QLabel *m_picLabel;
     QPushButton *m_foreBtn;
     QPushButton *m_backBtn;
     QPushButton *m_leftBtn;
     QPushButton *m_rightBtn;
     QMediaPlayer *m_player;
+
+    QUrl m_picUrl;
+    QNetworkRequest m_picRequest;
+    QNetworkAccessManager *m_picManager;
 };
 
 #endif
