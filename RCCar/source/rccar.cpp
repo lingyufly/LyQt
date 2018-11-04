@@ -148,6 +148,8 @@ void ControlWidget::resizeEvent(QResizeEvent *event)
 
 void ControlWidget::keyPressEvent(QKeyEvent *event)
 {
+    if (event->isAutoRepeat())
+        return;
     QWidget::keyPressEvent(event);
     if (event->key()==Qt::Key_W || event->key()==Qt::Key_Up)
         slot_gofore();
@@ -175,6 +177,8 @@ void ControlWidget::keyPressEvent(QKeyEvent *event)
 
 void ControlWidget::keyReleaseEvent(QKeyEvent *event)
 {
+    if (event->isAutoRepeat())
+        return;
     QWidget::keyReleaseEvent(event);
     if (event->key()==Qt::Key_W || event->key()==Qt::Key_A || event->key()==Qt::Key_S || event->key()==Qt::Key_D)
         slot_stop();
