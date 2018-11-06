@@ -1,3 +1,9 @@
 <RCC>
-    <qresource prefix="/image"/>
+    <qresource prefix="/image">
+        <file>setting.png</file>
+        <file>goback.png</file>
+        <file>gofore.png</file>
+        <file>turnleft.png</file>
+        <file>turnright.png</file>
+    </qresource>
 </RCC>

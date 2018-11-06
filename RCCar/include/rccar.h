@@ -14,18 +14,6 @@ class QNetworkReply;
 class QNetworkAccessManager;
 class QTimer;
 
-class LSlider : public QSlider
-{
-    Q_OBJECT
-public:
-    LSlider(QWidget *parent=NULL);
-    LSlider(Qt::Orientation orientation, QWidget *parent=NULL);
-    virtual ~LSlider();
-
-protected:
-    virtual void mousePressEvent(QMouseEvent *event);
-};
-
 
 class ControlWidget :public QWidget
 {
@@ -34,15 +22,20 @@ public:
     ControlWidget(QWidget *parent = NULL, Qt::WindowFlags fl = Qt::WindowFlags());
     virtual ~ControlWidget();
 
+    void setVideoUrl(QString url);
+    void setControlUrl(QString url);
+    void setShowInfo(bool shown);
+    void setShowLog(bool shown);
+
     typedef enum 
     {
-        NONE=0x00000000,
-        GOFORE=0x00000001,
-        GOBACK=0x00000010,
-        TURNLEFT=0x00000100,
-        TURNRIGHT=0x00001000,
-        VIEWLEFT=0x00010000,
-        VIEWRIGHT=0x00100000
+        NONE=0x00,
+        GOFORE=0x01,
+        GOBACK=0x02,
+        TURNLEFT=0x04,
+        TURNRIGHT=0x08,
+        VIEWLEFT=0x10,
+        VIEWRIGHT=0x20
     }CTRLACTION;
 
 protected:
@@ -62,10 +55,12 @@ protected slots:
     void slot_stop();
     void slot_viewleft();
     void slot_viewright();
+    void slot_showLog(QString msg);
     void slot_showinfo(QString msg);
     void slot_viewChanged(int angle);
     void slot_viewReset();
     void slot_viewTimer();
+    void slot_openSetting();
 
 signals:
     void signal_logmsg(QString msg);
@@ -77,15 +72,23 @@ private:
     QPushButton *m_backBtn;
     QPushButton *m_leftBtn;
     QPushButton *m_rightBtn;
-    LSlider *m_viewSlider;
-
+    QSlider *m_viewSlider;
+    QLabel *m_infoLabel;
+    QLabel *m_logLabel;
+    QPushButton *m_settingBtn;
     QTimer *m_viewTimer;
 
-    QUrl m_picUrl;
     QNetworkRequest m_picRequest;
     QNetworkAccessManager *m_picManager;
 
+    QString m_controlUrl;
+    QString m_videoUrl;
+    bool m_showInfo;
+    bool m_showLog;
+
     int m_ctrlaction;
+
+    QSize m_size;
 };
 
 #endif

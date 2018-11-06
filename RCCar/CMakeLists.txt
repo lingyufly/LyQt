@@ -15,8 +15,10 @@ qt5_add_resources(QRC_FILES resource/rccar.qrc)
 add_definitions("-g")
 set(SRCS
 	include/rccar.h  
+	include/config.h
 	source/main.cpp
 	source/rccar.cpp 
+	source/config.cpp
 	${QRC_FILES})
 	
 set(LIBS ${LIBS} Qt5::Widgets Qt5::Network)
