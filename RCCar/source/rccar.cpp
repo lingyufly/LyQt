@@ -101,7 +101,7 @@ void ControlWidget::setupUi()
 
 void ControlWidget::setVideoUrl(QString url)
 {
-    //m_picUrl = QUrl("http://192.168.2.199:8080/?action=snapshot");
+    //url = "http://192.168.2.199:8080/?action=snapshot";
     m_picRequest = QNetworkRequest(url);
     m_picManager->get(m_picRequest);
 }
