@@ -13,6 +13,7 @@ class QLabel;
 class QNetworkReply;
 class QNetworkAccessManager;
 class QTimer;
+class QButtonGroup;
 
 
 class ControlWidget :public QWidget
@@ -53,8 +54,7 @@ protected slots:
     void slot_turnleft();
     void slot_turnright();
     void slot_stop();
-    void slot_viewleft();
-    void slot_viewright();
+
     void slot_showLog(QString msg);
     void slot_showinfo(QString msg);
     void slot_viewChanged(int angle);
@@ -72,6 +72,8 @@ private:
     QPushButton *m_backBtn;
     QPushButton *m_leftBtn;
     QPushButton *m_rightBtn;
+    QButtonGroup *m_drctBtnGroup;
+    QPushButton *m_resetViewBtn;
     QSlider *m_viewSlider;
     QLabel *m_infoLabel;
     QLabel *m_logLabel;
