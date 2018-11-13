@@ -16,15 +16,59 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QButtonGroup>
+#include <QSettings>
 
 ControlWidget::ControlWidget(QWidget *parent /*= NULL*/, Qt::WindowFlags fl/*= Qt::windowFlags()*/)
 {
     setupUi();
+    if (readConfig() == false)
+    {
+        slot_openSetting();
+    }
+    m_viewAction = NONE;
 }
 
 ControlWidget::~ControlWidget()
 {
 
+}
+
+bool ControlWidget::readConfig()
+{
+    bool ret = true;
+    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
+    settings->beginGroup("Control");
+    if (settings->contains("ControlUrl"))
+        m_controlUrl = settings->value("ControlUrl").toString();
+    else
+        ret = false;
+    if (settings->contains("VideoUrl"))
+        m_videoUrl = settings->value("VideoUrl").toString();
+    else
+        ret = false;
+
+    m_showInfo = m_showLog = true;
+    if (settings->contains("ShowInfo"))
+        m_showInfo = settings->value("ShowInfo").toBool();
+
+    if (settings->contains("ShowLog"))
+        m_showLog = settings->value("ShowLog").toBool();
+
+    settings->endGroup();
+    delete settings;
+    return ret;
+}
+
+void ControlWidget::writeConfig()
+{
+    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
+    settings->beginGroup("Control");
+    settings->setValue("ControlUrl", m_controlUrl);
+    settings->setValue("VideoUrl", m_videoUrl);
+    settings->setValue("ShowInfo", m_showInfo);
+    settings->setValue("ShowLog", m_showLog);
+    settings->endGroup();
+    delete settings;
 }
 
 void ControlWidget::setupUi()
@@ -240,44 +284,34 @@ void ControlWidget::keyPressEvent(QKeyEvent *event)
     QWidget::keyPressEvent(event);
     if (event->key() == Qt::Key_W || event->key() == Qt::Key_Up)
     {
-        m_ctrlaction &= 0xF0;
-        m_ctrlaction |= GOFORE;
         m_foreBtn->setChecked(true);
         slot_gofore();
     }
     else if (event->key() == Qt::Key_A || event->key() == Qt::Key_Left)
     {
-        m_ctrlaction &= 0xF0;
-        m_ctrlaction |= TURNLEFT;
         m_leftBtn->setChecked(true);
         slot_turnleft();
     }
     else if (event->key() == Qt::Key_S || event->key() == Qt::Key_Down)
     {
-        m_ctrlaction &= 0xF0;
-        m_ctrlaction |= GOBACK;
         m_backBtn->setChecked(true);
         slot_goback();
     }
     else if (event->key() == Qt::Key_D || event->key() == Qt::Key_Right)
     {
-        m_ctrlaction &= 0xF0;
-        m_ctrlaction |= TURNRIGHT;
         m_rightBtn->setChecked(true);
         slot_turnright();
     }
 
     if (event->key() == Qt::Key_Q)
     {
-        m_ctrlaction &= 0x0F;
-        m_ctrlaction |= VIEWLEFT;
+        m_viewAction = VIEWLEFT;
         if (!m_viewTimer->isActive())
             m_viewTimer->start();
     }
     else if (event->key() == Qt::Key_E)
     {
-        m_ctrlaction &= 0x0F;
-        m_ctrlaction |= VIEWRIGHT;
+        m_viewAction = VIEWRIGHT;
         if (!m_viewTimer->isActive())
             m_viewTimer->start();
     }
@@ -294,12 +328,11 @@ void ControlWidget::keyReleaseEvent(QKeyEvent *event)
         {
             m_drctBtnGroup->checkedButton()->setChecked(false);
         }
-        m_ctrlaction &= 0xF0;
         slot_stop();
     }
     else if (event->key() == Qt::Key_Q || event->key() == Qt::Key_E)
     {
-        m_ctrlaction &= 0x0F;
+        m_viewAction = NONE;
         m_viewTimer->stop();
     }
 }
@@ -365,9 +398,9 @@ void ControlWidget::slot_viewReset()
 void ControlWidget::slot_viewTimer()
 {
     int angle = m_viewSlider->value();
-    if (m_ctrlaction&VIEWLEFT && angle > 0)
+    if (m_viewAction == VIEWLEFT && angle > 0)
         angle -= 1;
-    else if (m_ctrlaction&VIEWRIGHT && angle < 180)
+    else if (m_viewAction == VIEWRIGHT && angle < 180)
         angle += 1;
     else
         m_viewTimer->stop();
@@ -416,5 +449,6 @@ void ControlWidget::slot_openSetting()
         setControlUrl(m_controlUrl);
         setShowInfo(m_showInfo);
         setShowLog(m_showLog);
+        writeConfig();
     }
 }
