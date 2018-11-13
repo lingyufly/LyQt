@@ -77,6 +77,8 @@ void ControlWidget::setupUi()
     m_viewSlider->setMaximum(180);
     m_viewSlider->setValue(90);
     m_resetViewBtn = new QPushButton(this);
+    pixmap = QPixmap(":/image/resetview.png");
+    m_resetViewBtn->setIcon(pixmap);
 
     m_settingBtn = new QPushButton(this);
     m_settingBtn->setFlat(true);
@@ -208,6 +210,7 @@ void ControlWidget::repaintCtl()
 
     lth = 20;
     m_resetViewBtn->resize(lth, lth);
+    m_resetViewBtn->setIconSize(m_resetViewBtn->size());
     x = w - mng - 100 - lth / 2;
     y = h - mng - 10 - 10 - lth;
     m_resetViewBtn->move(x, y);
@@ -237,21 +240,29 @@ void ControlWidget::keyPressEvent(QKeyEvent *event)
     QWidget::keyPressEvent(event);
     if (event->key() == Qt::Key_W || event->key() == Qt::Key_Up)
     {
+        m_ctrlaction &= 0xF0;
+        m_ctrlaction |= GOFORE;
         m_foreBtn->setChecked(true);
         slot_gofore();
     }
     else if (event->key() == Qt::Key_A || event->key() == Qt::Key_Left)
     {
+        m_ctrlaction &= 0xF0;
+        m_ctrlaction |= TURNLEFT;
         m_leftBtn->setChecked(true);
         slot_turnleft();
     }
     else if (event->key() == Qt::Key_S || event->key() == Qt::Key_Down)
     {
+        m_ctrlaction &= 0xF0;
+        m_ctrlaction |= GOBACK;
         m_backBtn->setChecked(true);
         slot_goback();
     }
     else if (event->key() == Qt::Key_D || event->key() == Qt::Key_Right)
     {
+        m_ctrlaction &= 0xF0;
+        m_ctrlaction |= TURNRIGHT;
         m_rightBtn->setChecked(true);
         slot_turnright();
     }
@@ -283,7 +294,7 @@ void ControlWidget::keyReleaseEvent(QKeyEvent *event)
         {
             m_drctBtnGroup->checkedButton()->setChecked(false);
         }
-            
+        m_ctrlaction &= 0xF0;
         slot_stop();
     }
     else if (event->key() == Qt::Key_Q || event->key() == Qt::Key_E)

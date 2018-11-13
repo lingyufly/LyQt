@@ -5,5 +5,6 @@
         <file>gofore.png</file>
         <file>turnleft.png</file>
         <file>turnright.png</file>
+        <file>resetview.png</file>
     </qresource>
 </RCC>

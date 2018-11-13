@@ -88,7 +88,7 @@ private:
     bool m_showInfo;
     bool m_showLog;
 
-    int m_ctrlaction;
+    unsigned int m_ctrlaction;
 
     QSize m_size;
 };
