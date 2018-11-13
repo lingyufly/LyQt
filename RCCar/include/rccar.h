@@ -47,6 +47,9 @@ protected:
     virtual void keyPressEvent(QKeyEvent *event);
     virtual void keyReleaseEvent(QKeyEvent *event);
 
+    bool readConfig();
+    void writeConfig();
+
 protected slots:
     void slot_showPic(QNetworkReply *reply);
     void slot_gofore();

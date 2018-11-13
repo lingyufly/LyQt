@@ -16,15 +16,58 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QButtonGroup>
+#include <QSettings>
 
 ControlWidget::ControlWidget(QWidget *parent /*= NULL*/, Qt::WindowFlags fl/*= Qt::windowFlags()*/)
 {
     setupUi();
+    if (readConfig() == false)
+    {
+        slot_openSetting();
+    }
 }
 
 ControlWidget::~ControlWidget()
 {
 
+}
+
+bool ControlWidget::readConfig()
+{
+    bool ret = true;
+    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
+    settings->beginGroup("Control");
+    if (settings->contains("ControlUrl"))
+        m_controlUrl = settings->value("ControlUrl").toString();
+    else
+        ret = false;
+    if (settings->contains("VideoUrl"))
+        m_videoUrl = settings->value("VideoUrl").toString();
+    else
+        ret = false;
+
+    m_showInfo = m_showLog = true;
+    if (settings->contains("ShowInfo"))
+        m_showInfo = settings->value("ShowInfo").toBool();
+
+    if (settings->contains("ShowLog"))
+        m_showLog = settings->value("ShowLog").toBool();
+
+    settings->endGroup();
+    delete settings;
+    return ret;
+}
+
+void ControlWidget::writeConfig()
+{
+    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
+    settings->beginGroup("Control");
+    settings->setValue("ControlUrl", m_controlUrl);
+    settings->setValue("VideoUrl", m_videoUrl);
+    settings->setValue("ShowInfo", m_showInfo);
+    settings->setValue("ShowLog", m_showLog);
+    settings->endGroup();
+    delete settings;
 }
 
 void ControlWidget::setupUi()
@@ -416,5 +459,6 @@ void ControlWidget::slot_openSetting()
         setControlUrl(m_controlUrl);
         setShowInfo(m_showInfo);
         setShowLog(m_showLog);
+        writeConfig();
     }
 }
