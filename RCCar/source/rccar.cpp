@@ -17,15 +17,15 @@
 #include <QJsonObject>
 #include <QButtonGroup>
 #include <QSettings>
+#include <QTcpSocket>
 
 ControlWidget::ControlWidget(QWidget *parent /*= NULL*/, Qt::WindowFlags fl/*= Qt::windowFlags()*/)
 {
     setupUi();
     if (readConfig() == false)
-    {
-        slot_openSetting();
-    }
-    m_viewAction = NONE;
+        slot_settingDlg();
+    else
+        init();
 }
 
 ControlWidget::~ControlWidget()
@@ -36,7 +36,7 @@ ControlWidget::~ControlWidget()
 bool ControlWidget::readConfig()
 {
     bool ret = true;
-    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
+    QSettings *settings = new QSettings("ini/rccar.ini", QSettings::IniFormat);
     settings->beginGroup("Control");
     if (settings->contains("ControlUrl"))
         m_controlUrl = settings->value("ControlUrl").toString();
@@ -61,7 +61,7 @@ bool ControlWidget::readConfig()
 
 void ControlWidget::writeConfig()
 {
-    QSettings *settings = new QSettings("ini/settings.ini", QSettings::IniFormat);
+    QSettings *settings = new QSettings("ini/rccar.ini", QSettings::IniFormat);
     settings->beginGroup("Control");
     settings->setValue("ControlUrl", m_controlUrl);
     settings->setValue("VideoUrl", m_videoUrl);
@@ -137,17 +137,17 @@ void ControlWidget::setupUi()
     m_logLabel->show();
 
     m_viewTimer = new QTimer(this);
-    m_viewTimer->setInterval(20);
+    m_viewTimer->setInterval(100);
 
-    connect(m_foreBtn, &QPushButton::pressed, this, &ControlWidget::slot_gofore);
-    connect(m_backBtn, &QPushButton::pressed, this, &ControlWidget::slot_goback);
-    connect(m_leftBtn, &QPushButton::pressed, this, &ControlWidget::slot_turnleft);
-    connect(m_rightBtn, &QPushButton::pressed, this, &ControlWidget::slot_turnright);
+    connect(m_foreBtn, &QPushButton::pressed, this, &ControlWidget::slot_goFore);
+    connect(m_backBtn, &QPushButton::pressed, this, &ControlWidget::slot_goBack);
+    connect(m_leftBtn, &QPushButton::pressed, this, &ControlWidget::slot_turnLeft);
+    connect(m_rightBtn, &QPushButton::pressed, this, &ControlWidget::slot_turnRight);
     connect(m_drctBtnGroup, static_cast<void(QButtonGroup::*)(QAbstractButton*)>(&QButtonGroup::buttonReleased), 
         this, &ControlWidget::slot_stop);
     connect(m_viewSlider, &QSlider::valueChanged, this, &ControlWidget::slot_viewChanged);
     connect(m_resetViewBtn, &QPushButton::clicked, this, &ControlWidget::slot_viewReset);
-    connect(m_settingBtn, &QPushButton::clicked, this, &ControlWidget::slot_openSetting);
+    connect(m_settingBtn, &QPushButton::clicked, this, &ControlWidget::slot_settingDlg);
 
     connect(m_viewTimer, &QTimer::timeout, this, &ControlWidget::slot_viewTimer);
     connect(this, &ControlWidget::signal_logmsg, this, &ControlWidget::slot_showLog);
@@ -159,9 +159,23 @@ void ControlWidget::setupUi()
     m_settingBtn->setFocusPolicy(Qt::NoFocus);
 
     m_picManager = new QNetworkAccessManager(this);
-    connect(m_picManager, &QNetworkAccessManager::finished, this, &ControlWidget::slot_showPic);
+    connect(m_picManager, &QNetworkAccessManager::finished, this, &ControlWidget::slot_showPicture);
+
+    m_ctrlSocket = new QTcpSocket(this);
+    connect(m_ctrlSocket, &QTcpSocket::readyRead, this, &ControlWidget::slot_readMsg);
+    connect(m_ctrlSocket, &QTcpSocket::connected, this, &ControlWidget::slot_ctrlConnect);
+    connect(m_ctrlSocket, &QTcpSocket::disconnected, this, &ControlWidget::slot_ctrlDisconnect);
 
     m_size = size();
+}
+
+void ControlWidget::init()
+{
+    setVideoUrl(m_videoUrl);
+    setControlUrl(m_controlUrl);
+    setShowInfo(m_showInfo);
+    setShowLog(m_showLog);
+    m_viewAction = VIEWNONE;
 }
 
 void ControlWidget::setVideoUrl(QString url)
@@ -172,7 +186,13 @@ void ControlWidget::setVideoUrl(QString url)
 
 void ControlWidget::setControlUrl(QString url)
 {
-
+    QString host;
+    int port;
+    QStringList strs = url.split(":");
+    host = strs.at(0);
+    port = strs.at(1).toInt();
+    m_ctrlSocket->abort();
+    m_ctrlSocket->connectToHost(host, port);
 }
 
 void ControlWidget::setShowInfo(bool shown)
@@ -201,7 +221,7 @@ void ControlWidget::setShowLog(bool shown)
     }
 }
 
-void ControlWidget::repaintCtl()
+void ControlWidget::repaintUi()
 {
     int w = width();
     int h = height();
@@ -267,7 +287,7 @@ void ControlWidget::paintEvent(QPaintEvent *event)
     QWidget::paintEvent(event);
     if (m_size != size())
     {
-        repaintCtl();
+        repaintUi();
         m_size = size();
     }
 }
@@ -285,22 +305,22 @@ void ControlWidget::keyPressEvent(QKeyEvent *event)
     if (event->key() == Qt::Key_W || event->key() == Qt::Key_Up)
     {
         m_foreBtn->setChecked(true);
-        slot_gofore();
+        slot_goFore();
     }
     else if (event->key() == Qt::Key_A || event->key() == Qt::Key_Left)
     {
         m_leftBtn->setChecked(true);
-        slot_turnleft();
+        slot_turnLeft();
     }
     else if (event->key() == Qt::Key_S || event->key() == Qt::Key_Down)
     {
         m_backBtn->setChecked(true);
-        slot_goback();
+        slot_goBack();
     }
     else if (event->key() == Qt::Key_D || event->key() == Qt::Key_Right)
     {
         m_rightBtn->setChecked(true);
-        slot_turnright();
+        slot_turnRight();
     }
 
     if (event->key() == Qt::Key_Q)
@@ -332,12 +352,12 @@ void ControlWidget::keyReleaseEvent(QKeyEvent *event)
     }
     else if (event->key() == Qt::Key_Q || event->key() == Qt::Key_E)
     {
-        m_viewAction = NONE;
+        m_viewAction = VIEWNONE;
         m_viewTimer->stop();
     }
 }
 
-void ControlWidget::slot_showPic(QNetworkReply *reply)
+void ControlWidget::slot_showPicture(QNetworkReply *reply)
 {
     if (reply->error() != QNetworkReply::NoError)
     {
@@ -355,29 +375,39 @@ void ControlWidget::slot_showPic(QNetworkReply *reply)
     m_picManager->get(m_picRequest);
 }
 
-void ControlWidget::slot_gofore()
+void ControlWidget::slot_goFore()
 {
     emit signal_logmsg("Go fore");
+    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(GOFORE).arg(0);
+    slot_sendMsg(msg);
 }
 
-void ControlWidget::slot_goback()
+void ControlWidget::slot_goBack()
 {
     emit signal_logmsg("Go back");
+    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(GOBACK).arg(0);
+    slot_sendMsg(msg);
 }
 
-void ControlWidget::slot_turnleft()
+void ControlWidget::slot_turnLeft()
 {
     emit signal_logmsg("Turn left");
+    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(TURNLEFT).arg(0);
+    slot_sendMsg(msg);
 }
 
-void ControlWidget::slot_turnright()
+void ControlWidget::slot_turnRight()
 {
     emit signal_logmsg("Turn right");
+    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(TURNRIGHT).arg(0);
+    slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_stop()
 {
     emit signal_logmsg("Stop");
+    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(STOP).arg(0);
+    slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_viewChanged(int angle)
@@ -387,6 +417,8 @@ void ControlWidget::slot_viewChanged(int angle)
     else
         m_resetViewBtn->show();
     emit signal_logmsg(QString("View %1").arg(angle));
+    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(VIEWACTION).arg(angle);
+    slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_viewReset()
@@ -407,17 +439,20 @@ void ControlWidget::slot_viewTimer()
     m_viewSlider->setValue(angle);
 }
 
-void ControlWidget::slot_showinfo(QString msg)
+void ControlWidget::slot_showInfo(QString msg)
 {
     if (!m_showInfo)
         return;
     m_logLabel->setText(msg);
-    qDebug() << msg.toLocal8Bit().data();
-    QJsonDocument jsonDoc = QJsonDocument::fromJson(msg.toLocal8Bit().data());
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(msg.toLocal8Bit());
     QJsonObject jsonObj = jsonDoc.object();
     QStringList keys= jsonObj.keys();
+
+    QString txt = QString::null;
     for (QList<QString>::iterator key = keys.begin(); key != keys.end(); key++)
-        m_infoLabel->setText((*key) + ":" + jsonObj.value(*key).toString() + "\n");
+        txt += (*key) + ":" + jsonObj.value(*key).toString() + "\n";
+
+    m_infoLabel->setText(txt);
 }
 
 void ControlWidget::slot_showLog(QString msg)
@@ -428,11 +463,36 @@ void ControlWidget::slot_showLog(QString msg)
     m_logLabel->setText(logmsg);
 }
 
-void ControlWidget::slot_openSetting()
+void ControlWidget::slot_sendMsg(QString msg)
+{
+    QByteArray qba = msg.toLocal8Bit();
+    m_ctrlSocket->write(qba);
+    m_ctrlSocket->flush();
+    slot_showInfo(msg);
+}
+
+void ControlWidget::slot_readMsg()
+{
+    QByteArray qba = m_ctrlSocket->readAll();
+    QString msg = QVariant(qba).toString();
+    slot_showInfo(msg);
+}
+
+void ControlWidget::slot_ctrlConnect()
+{
+    emit signal_logmsg("Connected");
+}
+
+void ControlWidget::slot_ctrlDisconnect()
+{
+    emit signal_logmsg("Disconnected");
+}
+
+void ControlWidget::slot_settingDlg()
 {
     ConfigWidget config(this);
     QString url = QString::null;
-    url = m_controlUrl.length() > 0 ? m_controlUrl : "http://192.168.2.199:8081";
+    url = m_controlUrl.length() > 0 ? m_controlUrl : "192.168.2.199:8081";
     config.setControlUrl(url);
     url = m_videoUrl.length() > 0 ? m_videoUrl : "http://192.168.2.199:8080/?action=snapshot";
     config.setVideoUrl(url);
@@ -444,11 +504,7 @@ void ControlWidget::slot_openSetting()
         m_videoUrl = config.getVideoUrl();
         m_showInfo = config.getShowInfo();
         m_showLog = config.getShowLog();
-
-        setVideoUrl(m_videoUrl);
-        setControlUrl(m_controlUrl);
-        setShowInfo(m_showInfo);
-        setShowLog(m_showLog);
         writeConfig();
+        init();
     }
 }
