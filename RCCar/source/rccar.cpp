@@ -137,7 +137,7 @@ void ControlWidget::setupUi()
     m_logLabel->show();
 
     m_viewTimer = new QTimer(this);
-    m_viewTimer->setInterval(100);
+    m_viewTimer->setInterval(20);
 
     connect(m_foreBtn, &QPushButton::pressed, this, &ControlWidget::slot_goFore);
     connect(m_backBtn, &QPushButton::pressed, this, &ControlWidget::slot_goBack);
@@ -261,22 +261,22 @@ void ControlWidget::repaintUi()
     m_settingBtn->setIconSize(m_settingBtn->size());
     m_settingBtn->move(10, 10);
 
-    m_infoLabel->resize(100, 50);
-    m_infoLabel->move(w - (100 + 10), 10);
+    m_infoLabel->resize(150, 150);
+    m_infoLabel->move(w - (150 + 10), 10);
 
-    m_logLabel->resize(100, 50);
+    m_logLabel->resize(250, 50);
     m_logLabel->move(10, 60);
 
-    m_viewSlider->resize(200, 10);
+    m_viewSlider->resize(200, 15);
     x = w - mng - 200;
-    y = h - mng - 10 - 10;
+    y = h - mng - 10 - 15;
     m_viewSlider->move(x, y);
 
     lth = 20;
     m_resetViewBtn->resize(lth, lth);
     m_resetViewBtn->setIconSize(m_resetViewBtn->size());
     x = w - mng - 100 - lth / 2;
-    y = h - mng - 10 - 10 - lth;
+    y = h - mng - 10 - 15 - lth;
     m_resetViewBtn->move(x, y);
     if (m_viewSlider->value() == 90)
         m_resetViewBtn->hide();

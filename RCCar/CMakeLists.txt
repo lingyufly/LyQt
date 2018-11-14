@@ -17,7 +17,7 @@ find_package(Qt5Network REQUIRED)
 include_directories(include)
 qt5_add_resources(QRC_FILES resource/rccar.qrc)
 
-add_definitions("-g")
+add_definitions("-std=c++11")
 set(SRCS
 	include/rccar.h  
 	include/config.h
@@ -34,7 +34,7 @@ if (ANDROID)
 	set(GLOBAL PROPERTY CMAKE_C_COMPILE_FEATURES ${cxx_features})
 	set(QT_ANDROID_SDK_ROOT "D:/Applications/Android/android-sdk")
 	include(../../qt-android-cmake/AddQtAndroidApk.cmake)
-	add_library(RCCar SHARED ${SRC})
+	add_library(RCCar SHARED ${SRCS})
 	add_qt_android_apk(my_app_apk RCCar
 		BUILDTOOLS_REVISION "28.0.0"
 		INSTALL)
@@ -43,4 +43,4 @@ else()
 endif()
 target_link_libraries(RCCar ${LIBS})
 
-#cmake -G"MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE="E:\\code\\Qt\\QtDemo\\RCCar\\qt-android-cmake\\toolchain\\android.toolchain.cmake" -DCMAKE_MAKE_PROGRAM="%ANDROID_NDK%/prebuilt/windows/bin/make.exe" ..
+#cmake -G"MinGW Makefiles" -DCMAKE_TOOLCHAIN_FILE="E:\\code\\Qt\\qt-android-cmake\\toolchain\\android.toolchain.cmake" -DCMAKE_MAKE_PROGRAM="%ANDROID_NDK%/prebuilt/windows/bin/make.exe" ..
