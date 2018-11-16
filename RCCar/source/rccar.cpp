@@ -378,35 +378,35 @@ void ControlWidget::slot_showPicture(QNetworkReply *reply)
 void ControlWidget::slot_goFore()
 {
     emit signal_logmsg("Go fore");
-    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(GOFORE).arg(0);
+    QString msg = QString("{\"act\":%1, \"value\":%2}").arg(GOFORE).arg(0);
     slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_goBack()
 {
     emit signal_logmsg("Go back");
-    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(GOBACK).arg(0);
+    QString msg = QString("{\"act\":%1, \"value\":%2}").arg(GOBACK).arg(0);
     slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_turnLeft()
 {
     emit signal_logmsg("Turn left");
-    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(TURNLEFT).arg(0);
+    QString msg = QString("{\"act\":%1, \"value\":%2}").arg(TURNLEFT).arg(0);
     slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_turnRight()
 {
     emit signal_logmsg("Turn right");
-    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(TURNRIGHT).arg(0);
+    QString msg = QString("{\"act\":%1, \"value\":%2}").arg(TURNRIGHT).arg(0);
     slot_sendMsg(msg);
 }
 
 void ControlWidget::slot_stop()
 {
     emit signal_logmsg("Stop");
-    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(STOP).arg(0);
+    QString msg = QString("{\"act\":%1, \"value\":%2}").arg(STOP).arg(0);
     slot_sendMsg(msg);
 }
 
@@ -417,7 +417,7 @@ void ControlWidget::slot_viewChanged(int angle)
     else
         m_resetViewBtn->show();
     emit signal_logmsg(QString("View %1").arg(angle));
-    QString msg = QString("{\"act\":\"%1\", \"value\":\"%2\"}").arg(VIEWACTION).arg(angle);
+    QString msg = QString("{\"act\":%1, \"value\":%2}").arg(VIEWACTION).arg(angle);
     slot_sendMsg(msg);
 }
 
@@ -450,7 +450,9 @@ void ControlWidget::slot_showInfo(QString msg)
 
     QString txt = QString::null;
     for (QList<QString>::iterator key = keys.begin(); key != keys.end(); key++)
-        txt += (*key) + ":" + jsonObj.value(*key).toString() + "\n";
+    {
+        txt += QString("%1:%2\n").arg(*key).arg(jsonObj.value(*key).toDouble());
+    }
 
     m_infoLabel->setText(txt);
 }
@@ -468,7 +470,6 @@ void ControlWidget::slot_sendMsg(QString msg)
     QByteArray qba = msg.toLocal8Bit();
     m_ctrlSocket->write(qba);
     m_ctrlSocket->flush();
-    slot_showInfo(msg);
 }
 
 void ControlWidget::slot_readMsg()
