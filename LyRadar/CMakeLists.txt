@@ -19,6 +19,6 @@ set(SRCS
 	
 set(LIBS ${LIBS} Qt5::Widgets)
 
-add_executable(LyRadar WIN32 ${SRCS})
+add_executable(LyRadar ${SRCS})
 target_link_libraries(LyRadar ${LIBS})
 

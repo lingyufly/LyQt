@@ -19,6 +19,6 @@ set(SRCS
 	
 set(LIBS ${LIBS} Qt5::Widgets Qt5::Network)
 
-add_executable(NetTools WIN32 ${SRCS})
+add_executable(NetTools ${SRCS})
 target_link_libraries(NetTools ${LIBS})
 

@@ -19,6 +19,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
 {
     setupUi();
+    if (!login())
+    {
+        exit(-1);
+    }
 }
 
 
@@ -39,7 +43,6 @@ bool MainWindow::login()
     else
     {
         close();
-        qApp->quit();
         return false;
     }
 }
