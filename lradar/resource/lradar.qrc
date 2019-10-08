@@ -1,5 +1,5 @@
 <RCC>
     <qresource prefix="/image">
-        <file>lyradar.ico</file>
+        <file>lradar.ico</file>
     </qresource>
 </RCC>

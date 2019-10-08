@@ -1,5 +1,5 @@
-#ifndef _LYRADAR_H_
-#define _LYRADAR_H_
+#ifndef _RADAR_H_
+#define _RADAR_H_
 
 
 #include <QWidget>
@@ -35,13 +35,13 @@ private:
     double m_distance;
 };
 
-class LyRadar : public QWidget
+class Radar : public QWidget
 {
     Q_OBJECT
 
 public:
-    LyRadar(QWidget *parent = Q_NULLPTR, Qt::WindowFlags fl=Qt::WindowFlags());
-    ~LyRadar();
+    Radar(QWidget *parent = Q_NULLPTR, Qt::WindowFlags fl=Qt::WindowFlags());
+    ~Radar();
 
     void paintEvent(QPaintEvent * event);
     void timerEvent(QTimerEvent *evet);
@@ -84,7 +84,7 @@ private:
 
 
 
-#endif // !_LYRADAR_H_
+#endif // !_RADAR_H_
 
 
 

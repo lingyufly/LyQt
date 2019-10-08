@@ -7,5 +7,5 @@ if (MSVC)
 endif()
 
 add_subdirectory(TestQt)
-add_subdirectory(LyRadar)
+add_subdirectory(lradar)
 add_subdirectory(NetTools)

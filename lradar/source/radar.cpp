@@ -1,4 +1,4 @@
-#include "LyRadar.h"
+#include "radar.h"
 
 #include <QBrush>
 #include <QPoint>
@@ -15,7 +15,7 @@
 #include <QPixmap>
 #include <cmath>
 
-LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
+Radar::Radar(QWidget *parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
 {
     resize(800, 400);
@@ -28,14 +28,14 @@ LyRadar::LyRadar(QWidget *parent, Qt::WindowFlags fl)
 }
 
 
-LyRadar::~LyRadar()
+Radar::~Radar()
 {
 
 }
 //定时器，测试使用
 
 static double m_rotate = 0.0;
-void LyRadar::timerEvent(QTimerEvent *event)
+void Radar::timerEvent(QTimerEvent *event)
 {
     qDebug() << "timerEvent, id=" << event->timerId();
     
@@ -51,7 +51,7 @@ void LyRadar::timerEvent(QTimerEvent *event)
 }
 
 
-void LyRadar::pushPoint(double angle, double distance)
+void Radar::pushPoint(double angle, double distance)
 {
     addPoint(angle, distance);
 
@@ -74,14 +74,14 @@ void LyRadar::pushPoint(double angle, double distance)
 }
 
 
-void LyRadar::paintEvent(QPaintEvent *event)
+void Radar::paintEvent(QPaintEvent *event)
 {
     qDebug() << "paintEvent";
     QPainter p(this);
     p.drawPixmap(0, 0, *m_pix);
 }
 
-void LyRadar::preDraw()
+void Radar::preDraw()
 {
     m_width = size().width();
     m_height = size().height();
@@ -95,7 +95,7 @@ void LyRadar::preDraw()
     m_rect=QRect(sx, sy, w, w);
 }
 
-void LyRadar::drawCircle(QPainter &painter)
+void Radar::drawCircle(QPainter &painter)
 {
     painter.setBrush(QBrush(m_groudColor));
     painter.drawEllipse(m_center, m_radius, m_radius);
@@ -108,7 +108,7 @@ void LyRadar::drawCircle(QPainter &painter)
     painter.drawEllipse(m_center, 1, 1);
 }
 
-void LyRadar::drawArc(QPainter & painter)
+void Radar::drawArc(QPainter & painter)
 {
     painter.setBrush(QBrush(m_groudColor));
     painter.setPen(QPen(m_fontColor));
@@ -141,7 +141,7 @@ void LyRadar::drawArc(QPainter & painter)
     painter.drawLine(m_center, QPointF(px, py));
 }
 
-void LyRadar::drawScan(QPainter & painter, double angle)
+void Radar::drawScan(QPainter & painter, double angle)
 {
     qreal px = m_center.x() + m_radius * cos(angle*3.14 / 180);
     qreal py = m_center.y() - m_radius * sin(angle*3.14 / 180);
@@ -159,13 +159,13 @@ void LyRadar::drawScan(QPainter & painter, double angle)
         painter.drawPie(m_rect, angle * 16, 30 * 16);
 }
 
-void LyRadar::addPoint(double angle, double distance)
+void Radar::addPoint(double angle, double distance)
 {
     m_points.push_back(Point(angle, distance));
     return;
 }
 
-void LyRadar::drawPoints(QPainter & painter)
+void Radar::drawPoints(QPainter & painter)
 {
     for (Point point : m_points)
     {
