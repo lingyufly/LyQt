@@ -39,6 +39,7 @@ private:
     QTcpSocket *m_socket;
     QString m_host;
     int m_port;
+    QString m_msg;
 };
 
 

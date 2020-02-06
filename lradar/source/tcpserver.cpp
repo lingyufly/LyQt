@@ -10,6 +10,7 @@ TcpServer::TcpServer(QObject *parent):BaseServer(parent)
     m_socket=NULL;
     m_mode=NONE;
     m_port=8899;
+    m_msg="";
 }
 
 TcpServer::~TcpServer()
@@ -107,6 +108,7 @@ void TcpServer::slotGetNewConnection()
 void TcpServer::slotReadNewMsg()
 {
     QString msg=m_socket->readAll();
+    // 解析报文
     qDebug()<<msg;
 }
 

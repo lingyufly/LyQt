@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-project(TestQt)
+project(testqt)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -34,6 +34,6 @@ set(SRCS
 
 set(LIBS ${LIBS} Qt5::Widgets)
 
-add_executable(TestQt ${SRCS})
-target_link_libraries(TestQt ${LIBS})
+add_executable(testqt ${SRCS})
+target_link_libraries(testqt ${LIBS})
 

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1.0)
 
-project(NetTools)
+project(nettools)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
@@ -19,6 +19,6 @@ set(SRCS
 	
 set(LIBS ${LIBS} Qt5::Widgets Qt5::Network)
 
-add_executable(NetTools ${SRCS})
-target_link_libraries(NetTools ${LIBS})
+add_executable(nettools ${SRCS})
+target_link_libraries(nettools ${LIBS})
 

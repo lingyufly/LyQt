@@ -32,7 +32,6 @@ void BaseServer::start()
 
 void BaseServer::slotStart()
 {
-    qDebug()<<"111";
 }
 
 void BaseServer::quit()
